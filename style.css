@@ -1,0 +1,114 @@
+:root {
+    --font-size-base: 16px;
+}
+html {
+    font-size: var(--font-size-base);
+}
+html.font-sm { --font-size-base: 14px; }
+html.font-lg { --font-size-base: 18px; }
+
+code {
+    background-color: rgba(0,0,0,0.05);
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 6px;
+    font-family: 'Roboto Mono', monospace;
+}
+.dark code {
+    background-color: rgba(255,255,255,0.1);
+}
+.screen {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Custom Quiz Options --- */
+
+/* Container para as opções, onde o contador de letras vai começar */
+#options-container {
+  counter-reset: options-counter; /* Inicia um contador chamado 'options-counter' */
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  padding: 1rem; /* 16px */
+  border-width: 2px;
+  border-color: #e5e7eb; /* gray-200 */
+  border-radius: 0.5rem; /* rounded-lg */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dark .option-label {
+    border-color: #374151; /* dark:border-gray-700 */
+}
+
+.option-label:hover {
+    background-color: #f3f4f6; /* hover:bg-gray-100 */
+}
+
+.dark .option-label:hover {
+    background-color: #374151; /* dark:hover:bg-gray-700 */
+}
+
+
+/* 1. Esconda o input original (rádio ou checkbox) */
+.option-label input[type="radio"],
+.option-label input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* 2. Estilize o botão customizado (que vai exibir a letra) */
+.custom-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #9ca3af; /* gray-400 */
+  border-radius: 50%; /* Deixa redondo */
+  margin-right: 1rem; /* 16px */
+  font-weight: bold;
+  color: #9ca3af; /* gray-400 */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Gera a letra (A, B, C...) usando o contador CSS */
+.custom-option::before {
+  counter-increment: options-counter; /* Incrementa o contador para cada opção */
+  content: counter(options-counter, upper-alpha); /* Exibe o valor do contador como uma letra maiúscula (A, B, C...) */
+}
+
+/* 3. Mude a aparência quando o input for selecionado */
+.option-label input[type="radio"]:checked + .custom-option,
+.option-label input[type="checkbox"]:checked + .custom-option {
+  background-color: #2563eb; /* blue-600 */
+  border-color: #2563eb; /* blue-600 */
+  color: #fff; /* Cor da letra quando selecionado */
+}
+
+/* 4. Estilos para feedback de resposta correta/incorreta */
+.option-label.correct {
+    background-color: #dcfce7 !important; /* green-100 */
+    border-color: #22c55e !important; /* green-500 */
+}
+.dark .option-label.correct {
+    background-color: rgba(34, 197, 94, 0.2) !important; /* dark:!bg-green-900/50 */
+}
+
+.option-label.incorrect {
+    background-color: #fee2e2 !important; /* red-100 */
+    border-color: #ef4444 !important; /* red-500 */
+}
+.dark .option-label.incorrect {
+    background-color: rgba(239, 68, 68, 0.2) !important; /* dark:!bg-red-900/50 */
+}
