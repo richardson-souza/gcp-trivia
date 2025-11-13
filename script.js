@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Populate setup screen
         numQuestionsInput.max = allQuestions.length;
+        numQuestionsInput.value = Math.min(parseInt(numQuestionsInput.value), allQuestions.length);
         const categories = [...new Set(allQuestions.flatMap(q => q.categories))];
         populateCategories(categories);
 
