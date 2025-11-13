@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>This query assesses knowledge of <strong>Bigtable administrative procedures</strong> and the appropriate <strong>Google Cloud data migration tooling</strong> for non-in-place changes, which is a common scenario encountered in the Google Professional Data Engineer Exam.</p>
+
+                <h3>Step-by-Step Analysis and Conclusion</h3>
+
+                <h4>1. Identify the Core Service and Operational Constraint</h4>
+                <p>The scenario requires changing the fundamental storage property of an existing Bigtable instance (from HDD to SSD) while guaranteeing <strong>no data loss</strong>.</p>
+                <p>Bigtable is a highly scalable, managed wide-column NoSQL database. The service is designed to provide extremely high throughput and low latency. One of the easiest ways to improve Bigtable performance is to switch the underlying storage from HDD to SSD.</p>
+                <p>A key architectural feature of Bigtable is the <strong>separation of compute (nodes) and storage (data)</strong>, meaning data is stored durably on Colossus. However, not all changes can be performed on the fly.</p>
+
+                <h4>2. Determine the Correct Bigtable Modification Procedure</h4>
+                <p>We must determine if changing the storage type is an operation that can be performed in-place (Options A, B, D) or if it requires a full migration (Option C).</p>
+                <p>According to Google Cloud documentation regarding modifying a Bigtable instance, changing fundamental properties requires a specific, multi-step process.</p>
+                <p>The sources explicitly state the following items <strong>require creating a new instance</strong> and performing a data movement procedure:</p>
+                <ul>
+                    <li>Instance ID.</li>
+                    <li><strong>Storage type (SSD or HDD)</strong>.</li>
+                    <li>Customer-managed encryption key (CMEK) configuration.</li>
+                </ul>
+                <p>Therefore, to change the storage type from HDD to SSD, the documented procedure requires:</p>
+                <ol>
+                    <li>Create a <strong>new instance</strong> with the desired SSD storage type.</li>
+                    <li><strong>Export data</strong> from the old HDD instance.</li>
+                    <li><strong>Import data</strong> into the new SSD instance.</li>
+                    <li>Delete the old instance.</li>
+                </ol>
+
+                <h4>3. Evaluate and Eliminate Console-Based Options (A, B, D)</h4>
+                <p>Since changing the storage type (SSD or HDD) is explicitly listed as a property that <strong>cannot be updated in place</strong> and requires a new instance and migration, options suggesting an in-place switch via the Google Cloud console UI are fundamentally incorrect:</p>
+                <ul>
+                    <li><strong>A:</strong> From the Google Cloud console UI, you can switch the storage type... (Fails due to incorrect procedure).</li>
+                    <li><strong>B:</strong> From Google Cloud console UI, you can switch the storage type... (Fails due to incorrect procedure).</li>
+                    <li><strong>D:</strong> From Google Cloud console UI, you can switch the storage type... (Fails due to incorrect procedure).</li>
+                </ul>
+                <p>These options describe an operation that the Bigtable service architecture does not permit for this specific property.</p>
+
+                <h4>4. Validate the Migration Option (C)</h4>
+                <p>Option C describes the required multi-step migration workflow:</p>
+                <ul>
+                    <li><strong>C: Export the data to Cloud Storage in Avro format using Dataflow template and import data into new BigTable instance using Dataflow GCS Avro to BigTable.</strong></li>
+                </ul>
+                <p>This option adheres to the necessity of migrating data, which is the procedure required when changing the storage type.</p>
+                <ul>
+                    <li><strong>Tooling Confirmation:</strong> <strong>Dataflow</strong> is the recommended serverless execution environment for large-scale data pipelines built using Apache Beam. Dataflow supports running pipelines for transforming and enriching data. The Dataflow Beam connector for Bigtable is available for import and export operations. Furthermore, Google provides Dataflow templates (pre-written pipelines) for common data migration tasks.</li>
+                    <li><strong>Format Confirmation:</strong> The migration process often stages data in Cloud Storage (GCS). <strong>Avro</strong> is an efficient, expressive, self-describing binary format recommended for data loading into BigQuery/GCP when performance is critical, due to its parallelizable and compressed nature.</li>
+                </ul>
+                <p>This process (Export &rightarrow; GCS &rightarrow; Import to new SSD instance) is the authoritative way to achieve the goal of changing the storage type without losing data.</p>
+
+                <h3>Conclusion</h3>
+                <p>The correct answer is <strong>C</strong>.</p>
+                <p><strong>C. Export the data to Cloud Storage in Avro format using Dataflow template and import data into new BigTable instance using Dataflow GCS Avro to BigTable</strong> (Modify an instance | Bigtable | Google Cloud Documentation, n.d., p. 577).</p>
+
+                <hr>
+
+                <h3>Analogy for Understanding Bigtable Modification</h3>
+                <p>Imagine your Bigtable instance is a house (the data store) built on a foundation (the storage type). You can easily change the paint color (display name) or add new rooms (clusters/nodes) while people are inside. However, changing the fundamental foundation itself—like switching from a concrete slab (HDD) to a robust, highly optimized basement (SSD)—requires tearing down the structure, setting up a completely new, parallel foundation nearby, moving all the contents over securely (the export/import step), and only then demolishing the old foundation (Modify an instance | Bigtable | Google Cloud Documentation, n.d., p. 577). You cannot perform this foundational upgrade on the existing structure in place. The data must be migrated to a new architecture using reliable tools like Dataflow.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
