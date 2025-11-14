@@ -112,7 +112,8 @@
   }
   ,{
     "id": "q7",
-    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures. What should you do to meet these requirements?",
+    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures.
+What should you do to meet these requirements?",
     "options": [
       "Use the BigQueryUpsertTableOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
       "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
@@ -134,7 +135,8 @@
   }
   ,{
     "id": "q8",
-    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts. What should you do to improve data discoverability across these data assets?",
+    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts.
+What should you do to improve data discoverability across these data assets?",
     "options": [
       "Use Data Catalog to automatically catalog BigQuery datasets. Use Data Catalog APIs to manually catalog Pub/Sub topics and PostgreSQL tables.",
       "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables.",
@@ -154,5 +156,26 @@
     "is_verified": true,
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q8.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q9",
+    "question": "Let’s say you work as a data engineer in an organization with a large amount of data. They use Google Big Table to store their web service’s activity logs for faster retrieval and update. What will happen if the BigTable node fails?",
+    "options": [
+        "None of the above",
+        "Recover data from Cloud Storage when the node comes back online",
+        "Data will not be lost",
+        "Data will be lost"
+    ],
+    "correct_answers": [
+        "Data will not be lost"
+    ],
+    "categories": [
+        "BigTable",
+        "Architecture",
+        "Reliability"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q9.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]
