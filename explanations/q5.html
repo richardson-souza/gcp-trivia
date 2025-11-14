@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>This scenario is a classic data governance problem requiring the separation of metadata visibility (allowing all users to search for the sensitive flag) from data access (restricting who can actually view the sensitive data) while utilizing Data Catalog/Dataplex features and minimizing overhead.</p>
+
+                <h3>Step 1: Analyze the Requirements</h3>
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full mb-4 border border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2 border text-left">Component</th>
+                                <th class="px-4 py-2 border text-left">Requirement</th>
+                                <th class="px-4 py-2 border text-left">Implication (Service/Role)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border">Metadata Visibility</td>
+                                <td class="px-4 py-2 border">All employees must be able to search and find tables using the has_sensitive_data tag value.</td>
+                                <td class="px-4 py-2 border">The Tag Template (gdpr) or its Dataplex equivalent (Aspect Type) must be visible to everyone.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border">Data Access Control</td>
+                                <td class="px-4 py-2 border">Only the HR group should be able to see the data inside the tables where has_sensitive_data is true.</td>
+                                <td class="px-4 py-2 border">The HR group needs the BigQuery permission to read data (bigquery.tables.getData or the bigquery.dataViewer role) on the specific sensitive tables.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border">Minimization</td>
+                                <td class="px-4 py-2 border">Minimize configuration overhead.</td>
+                                <td class="px-4 py-2 border">Prefer public visibility for the tag template if metadata discovery is needed by many users, as this requires fewer IAM permissions on the tag resource itself.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Step 2: Evaluate Tag Visibility (Public vs. Private)</h3>
+                <p>Data Catalog tag templates (Aspect Types in Dataplex Universal Catalog) can be public or private.</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>Public Tag Template/Aspect Type:</strong> These are designed for wide visibility, supporting global search capabilities across the catalog. If the goal is for "all employees" to perform a simple search based on the tag value, making the template public minimizes configuration overhead, as it provides metadata visibility widely by default, simplifying access management compared to private tags.</li>
+                    <li><strong>Private Tag Template/Aspect Type:</strong> Dataplex Universal Catalog does not support the concept of private aspect types, meaning they must be updated to public visibility to be propagated. Even in legacy Data Catalog, giving access to a private template requires granting the datacatalog.tagTemplateViewer role to every user who needs to see the metadata.</li>
+                </ul>
+                <p>Since all employees need to perform searches based on the tag, setting the template visibility to Public is the lowest overhead way to achieve wide metadata discovery. This eliminates options A and B.</p>
+
+                <h3>Step 3: Evaluate Data Access Control</h3>
+                <p>The scenario grants bigquery.metadataViewer (metadata-only access) and bigquery.connectionUser (ability to use connections) to the "all employees" group on the dataset. The employees can see the tables and metadata, but they cannot see the data itself, as bigquery.metadataViewer does not include bigquery.tables.getData.</p>
+                <p>To allow the HR group to see the data in sensitive tables, they need a role that grants read access to the data.</p>
+                <p>The bigquery.dataViewer role grants permissions to read data (bigquery.tables.getData) on the specific table or dataset.</p>
+                <p>Therefore, assigning the bigquery.dataViewer role to the HR group specifically on the sensitive tables meets the data access requirement (Only HR sees the data) and adheres to the principle of least privilege.</p>
+
+                <h3>Step 4: Compare Remaining Options C and D</h3>
+                <p>Both remaining options (C and D) correctly use public visibility and grant the bigquery.dataViewer role to HR.</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>Option C:</strong> Create the "gdpr" tag template with public visibility. Assign the bigquery.dataViewer role to the HR group on the tables that contain sensitive data.</li>
+                    <li><strong>Option D:</strong> Create the "gdpr" tag template with public visibility. Assign the datacatalog.tagTemplateViewer role on this tag to the all employees group, and assign the bigquery.dataViewer role to the HR group on the tables that contain sensitive data.</li>
+                </ul>
+                <p>Since the template is public, "all employees" already have the necessary inherent visibility to search the metadata, achieving the first goal. Therefore, explicitly assigning the datacatalog.tagTemplateViewer role (Option D) is redundant when the template is publicly visible, resulting in unnecessary configuration overhead.</p>
+                <p>Option C achieves both requirements (metadata search for all, data view for HR) while avoiding redundant steps, thus minimizing configuration overhead.</p>
+
+                <h3>Chosen Answer</h3>
+                <p><strong>C. Create the “gdpr” tag template with public visibility. Assign the bigquery.dataViewer role to the HR group on the tables that contain sensitive data.</strong></p>
+            </div>
+        </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q5.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>
