@@ -110,4 +110,26 @@
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q6.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
+  ,{
+    "id": "q7",
+    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures.\nWhat should you do to meet these requirements?",
+    "options": [
+      "Use the BigQueryUpsertTableOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
+      "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
+      "Create a BigQuery scheduled query to run the SQL transformation with schedule options that repeats every two hours, and enable email notifications.",
+      "Create a BigQuery scheduled query to run the SQL transformation with schedule options that repeats every two hours, and enable notification to Pub/Sub topic. Use Pub/Sub and Cloud Functions to send an email after three failed executions."
+    ],
+    "correct_answers": [
+      "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true."
+    ],
+    "categories": [
+      "BigQuery",
+      "Cloud Composer",
+      "Orchestration",
+      "Data Engineering"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q7.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
 ]
