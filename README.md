@@ -2,7 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-richardson--souza.github.io%2Fgcp--trivia%2F-blue?style=for-the-badge)](https://richardson-souza.github.io/gcp-trivia/)
 
-This is a simple web-based trivia application focused on Google Cloud Platform (GCP) concepts, designed to help users test their knowledge and learn through detailed explanations.
+This is a simple web-based trivia application focused on the Google Cloud Professional Data Engineer Practice Test, designed to help users test their knowledge and learn through detailed explanations.
 
 ## Features
 
