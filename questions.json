@@ -313,4 +313,27 @@
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q15.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
+  ,{
+    "id": "q16",
+    "question": "Let’s say you are building a machine learning classification model using TensorFlow. You trained the model by using 70% of the total set available for training, validation and testing. After testing the model, AUC returned from the test results was 0.68. The main issue here is due to overfitting. You want to increase the AUC for better accuracy of results. What should you do?",
+    "options": [
+      "Reduce regularization.",
+      "Increase regularization.",
+      "Increase feature parameters.",
+      "Reduce samples used for training."
+    ],
+    "correct_answers": [
+      "Increase regularization."
+    ],
+    "categories": [
+      "Machine Learning",
+      "TensorFlow",
+      "Model Training",
+      "Overfitting",
+      "Regularization"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q16.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
 ]
