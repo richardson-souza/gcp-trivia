@@ -112,7 +112,7 @@
   }
   ,{
     "id": "q7",
-    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures. What should you do to meet these requirements?",
+    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures.\nWhat should you do to meet these requirements?",
     "options": [
       "Use the BigQueryUpsertTableOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
       "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
@@ -134,7 +134,7 @@
   }
   ,{
     "id": "q8",
-    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts. What should you do to improve data discoverability across these data assets?",
+    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts.\nWhat should you do to improve data discoverability across these data assets?",
     "options": [
       "Use Data Catalog to automatically catalog BigQuery datasets. Use Data Catalog APIs to manually catalog Pub/Sub topics and PostgreSQL tables.",
       "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables.",
@@ -221,5 +221,28 @@
     "is_verified": true,
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q11.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q12",
+    "question": "You are rolling out 10,000 IoT sensors across FusionWare Inc.’s global warehouses to monitor temperature readings. These devices will generate high volumes of data, and your goal is to process, store, and analyze this data in real time. What is the most suitable approach?",
+    "options": [
+      "Ingest the data into Cloud Datastore, then export it to BigQuery for analysis.",
+      "Stream the data through Cloud Pub/Sub, use Cloud Dataflow for processing, and store the results in BigQuery.",
+      "Store the data in Cloud Storage, and spin up an Apache Hadoop cluster on Cloud Dataproc whenever analysis is needed.",
+      "Export logs in batches to Cloud Storage, spin up a Cloud SQL instance, import the data, and perform analysis when required."
+    ],
+    "correct_answers": [
+      "Stream the data through Cloud Pub/Sub, use Cloud Dataflow for processing, and store the results in BigQuery."
+    ],
+    "categories": [
+      "IoT",
+      "Real-time Processing",
+      "Data Ingestion",
+      "Data Processing",
+      "Analytics"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q12.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]
