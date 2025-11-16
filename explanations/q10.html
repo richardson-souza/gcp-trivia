@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>The user is facing a common anti-pattern in cloud architecture: executing a long-running, resource-intensive job (generating a full activity report) synchronously via a web API, leading to frequent timeouts during high traffic. The solution requires transforming this synchronous request into a reliable, scalable, and asynchronous workflow using Google Cloud's serverless tools.</p>
+
+                <h3>Step 1: Analyze the Problem and Architectural Constraints</h3>
+                <p>The core issue is that the user's API request times out after 60 seconds. In a synchronous application environment (like Cloud Run or App Engine), a client expects an immediate response, and intermediate load balancers or client applications often enforce strict timeouts. Attempting to perform a heavy workload, such as compiling a large user activity report, during this narrow window is fundamentally unscalable, especially during peak load where resource contention is high.</p>
+                <p>To solve this, the architecture must adopt a <strong>decoupled, asynchronous pattern</strong> where the initial API call immediately queues the job and returns a success status to the user, allowing the resource-intensive process to run independently in the background.</p>
+
+                <h3>Step 2: Evaluate Alternative Solutions</h3>
+                <p>I will evaluate the given options against the requirement for a highly available, scalable, and asynchronous solution that meets the user's need to generate an on-demand report.</p>
+
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full mb-4 border border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2 border text-left">Option</th>
+                                <th class="px-4 py-2 border text-left">Evaluation</th>
+                                <th class="px-4 py-2 border text-left">Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">A. Use Pub/Sub to receive requests...</td>
+                                <td class="px-4 py-2 border font-bold align-top">Correct and scalable.</td>
+                                <td class="px-4 py-2 border">This establishes the recommended asynchronous pattern. <strong>Pub/Sub</strong> is a serverless messaging queue that reliably ingests high volumes of event data and distributes it asynchronously, insulating the downstream processing from peak ingestion traffic spikes. <strong>Cloud Functions</strong> scale automatically in response to messages from Pub/Sub, providing the necessary compute power to generate reports without managing infrastructure. Storing the final large report in **Cloud Storage (GCS)** is the standard practice for immutable files that need to be accessed via a temporary link.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">B. Migrate data source to Cloud Spanner...</td>
+                                <td class="px-4 py-2 border font-bold align-top">Incorrect focus.</td>
+                                <td class="px-4 py-2 border">While <strong>Cloud Spanner</strong> is a serverless SQL database offering high scalability and availability, moving the transactional data source does not resolve the API's synchronous 60-second execution limit. The architectural failure lies in the application layer attempting to execute a complex reporting query synchronously, regardless of the speed of the underlying database.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">C. Build a Dataflow pipeline to generate daily reports...</td>
+                                <td class="px-4 py-2 border font-bold align-top">Fails requirements.</td>
+                                <td class="px-4 py-2 border">This approach uses **Dataflow** for scheduled batch processing. While efficient, it produces *stale* daily reports. The user request implies a need for **up-to-the-minute** or on-demand logs based on an immediate request, not a batch report generated hours earlier.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">D. Increase timeout for API...</td>
+                                <td class="px-4 py-2 border font-bold align-top">Poor engineering practice.</td>
+                                <td class="px-4 py-2 border">Increasing the API timeout only avoids the 60-second limit; it does not solve the inherent scalability and contention issues of performing massive, long-running batch computation (like report generation) inside a live, request-handling worker process, especially under peak traffic. This approach wastes compute resources and leads to unpredictable performance.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Step 3: Conclusion and Best Practice Justification</h3>
+                <p>Option A employs the standard, reliable pattern for addressing long-running processes triggered by high-volume API requests in Google Cloud.</p>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>Decoupling:</strong> The initial API call (the "click a button") should become a lightweight publisher that sends a message (the request for the report) to a <strong>Pub/Sub</strong> topic. The API immediately returns a status message ("Report generation started") to the user, thereby avoiding the 60-second timeout.</li>
+                    <li><strong>Scalable Processing:</strong> The Pub/Sub message triggers a **Cloud Function** (or a Cloud Run worker service via a push subscription) to perform the heavy lifting. Cloud Functions are serverless and designed to scale instantly to meet the traffic demands of the queue, processing the reports in parallel without exhausting the capacity of the frontend web servers.</li>
+                    <li><strong>Durable Output:</strong> The finished report is stored in **Cloud Storage**, which is optimized for storing large, durable files.</li>
+                    <li><strong>User Notification:</strong> An email provides the final link to the securely stored report, completing the asynchronous loop.</li>
+                </ol>
+                <p>This architecture ensures that the service remains responsive during peak traffic (since the web API returns instantly) while guaranteeing that the processing jobs are eventually completed reliably and scalably.</p>
+                <p>The correct choice is <strong>A</strong>.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q10.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>

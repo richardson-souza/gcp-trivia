@@ -112,7 +112,8 @@
   }
   ,{
     "id": "q7",
-    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures. What should you do to meet these requirements?",
+    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures.
+What should you do to meet these requirements?",
     "options": [
       "Use the BigQueryUpsertTableOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
       "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
@@ -134,7 +135,8 @@
   }
   ,{
     "id": "q8",
-    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts. What should you do to improve data discoverability across these data assets?",
+    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts.
+What should you do to improve data discoverability across these data assets?",
     "options": [
       "Use Data Catalog to automatically catalog BigQuery datasets. Use Data Catalog APIs to manually catalog Pub/Sub topics and PostgreSQL tables.",
       "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables.",
@@ -175,5 +177,51 @@
     "is_verified": true,
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q9.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q10",
+    "question": "Let’s say a social media platform stores various details of their platform users such as session login time, URLs visited, activities on the platform and other logs. With GDPR (General Data Protection Regulation) compliance to be officially implemented, the platform now allows users to download their activity logs from their profile settings which they can click a button to call an API to generate a full report. Recently, users are complaining timeouts after 60 seconds of requesting to download their activity logs at peak hours when the platform has the most traffic. They have to try for several minutes or even hours for the API to return their report available for download. How can you solve this issue?",
+    "options": [
+      "Use Pub/Sub to receive requests for activity logs from users. Deploy a Cloud Function with a Pub/Sub trigger to generate the reports and store them in a GCS bucket. Then, send temporary download links to the users via email.",
+      "Migrate data source to Cloud Spanner for horizontal scaling to avoid query timeouts.",
+      "Build a Dataflow pipeline to generate daily reports of users’ activity logs. Users can download those daily reports whenever they want to.",
+      "Increase timeout for API at peak times to 120 seconds. If it keeps failing, try increasing the timeout until the issue is resolved."
+    ],
+    "correct_answers": [
+      "Use Pub/Sub to receive requests for activity logs from users. Deploy a Cloud Function with a Pub/Sub trigger to generate the reports and store them in a GCS bucket. Then, send temporary download links to the users via email."
+    ],
+    "categories": [
+      "Pub/Sub",
+      "Cloud Functions",
+      "GCS",
+      "Asynchronous Processing",
+      "Scalability"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q10.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q11",
+    "question": "A new data scientist named Ava has joined TechNova Solutions. She needs to carry out complex analyses on large datasets stored in Google Cloud Storage and a Cassandra cluster running on Google Compute Engine. Her primary goal is to generate labeled datasets for machine learning and perform some data visualizations. Ava mentions that her current laptop lacks the computing power required and is causing delays. You want to assist her in completing her tasks efficiently. What should you do?",
+    "options": [
+      "Set up and run a local Jupyter notebook on her laptop.",
+      "Provide her with access to Google Cloud Shell.",
+      "Launch a visualization application on a virtual machine in Google Compute Engine.",
+      "Deploy Google Cloud Datalab on a virtual machine in Google Compute Engine."
+    ],
+    "correct_answers": [
+      "Deploy Google Cloud Datalab on a virtual machine in Google Compute Engine."
+    ],
+    "categories": [
+      "Data Science",
+      "Machine Learning",
+      "Big Data",
+      "Compute Engine",
+      "Data Visualization"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q11.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]
