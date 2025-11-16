@@ -290,4 +290,27 @@
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q14.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
+  ,{
+    "id": "q15",
+    "question": "You are working at DataLoop Systems, and you need to monitor BigQuery usage through Google Cloud Logging (formerly Stackdriver Logging). Specifically, you want to receive real-time alerts through your monitoring system whenever new rows are inserted into a specific BigQuery table via an insert job. However, you want to avoid alerts for insert operations on any other tables. What should you do?",
+    "options": [
+      "Use the Cloud Logging API to list all logs, and apply an advanced filter on the client side.",
+      "Go to the Cloud Logging interface and create a log sink that exports logs to BigQuery.",
+      "In the Cloud Logging interface, set up a log sink that exports to Cloud Pub/Sub, then have your monitoring tool subscribe to the topic.",
+      "Use the Cloud Logging API to create a project-level sink with an advanced log filter that exports to Cloud Pub/Sub, and have your monitoring system subscribe to that topic."
+    ],
+    "correct_answers": [
+      "Use the Cloud Logging API to create a project-level sink with an advanced log filter that exports to Cloud Pub/Sub, and have your monitoring system subscribe to that topic."
+    ],
+    "categories": [
+      "Monitoring",
+      "Logging",
+      "BigQuery",
+      "Pub/Sub",
+      "Real-time Alerts"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q15.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
 ]
