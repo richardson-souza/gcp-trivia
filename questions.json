@@ -336,4 +336,27 @@
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q16.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
+  ,{
+    "id": "q17",
+    "question": "You are managing a high-sensitivity project for NexaCore Analytics, which involves processing private user data. The project is hosted internally on Google Cloud Platform (GCP). To assist with a complex transformation in your Cloud Dataflow pipeline, an external developer has been brought in for temporary collaboration. You must ensure that user privacy is protected during their involvement. What is the most appropriate action to take?",
+    "options": [
+      "Assign the Viewer role to the consultant at the project level.",
+      "Grant the Cloud Dataflow Developer role to the consultant for the project.",
+      "Set up a service account and let the consultant log in using its credentials.",
+      "Provide the consultant with access to an anonymized version of the dataset located in a separate GCP project."
+    ],
+    "correct_answers": [
+      "Provide the consultant with access to an anonymized version of the dataset located in a separate GCP project."
+    ],
+    "categories": [
+      "Data Security",
+      "Data Privacy",
+      "Dataflow",
+      "IAM",
+      "GCP Best Practices"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q17.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
 ]
