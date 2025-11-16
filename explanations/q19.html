@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q19</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto pb-20">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>As a data engineer taking the Google Professional Data Engineer Exam, I will analyze the scenario using structured problem-solving techniques, focusing on key concepts of BigQuery cost management and Looker Studio integration derived directly from the provided sources.</p>
+
+                <h3><strong>Step 1: Deconstruct the Problem and Define the Objective</strong></h3>
+                <p>The query establishes the following constraints and objectives:</p>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>System:</strong> Data Studio reports read live data from BigQuery.</li>
+                    <li><strong>Data Freshness Constraint:</strong> The underlying data is updated only once per day.</li>
+                    <li><strong>Core Problem:</strong> High BigQuery costs are incurred due to <strong>frequent queries</strong> triggered by the dashboards.</li>
+                    <li><strong>Objective:</strong> Control and <strong>minimize costs</strong> by addressing query frequency.</li>
+                </ol>
+                <p>BigQuery costs are determined by the size of the data accessed multiplied by the amount of usage (frequency). Frequent user interactions, such as changing data filters or refreshing the report, drive up this usage multiplier, potentially leading to high costs if large tables are frequently accessed.</p>
+
+                <h3><strong>Step 2: Evaluate Each Solution Option</strong></h3>
+                <p>I will evaluate each option based on its effectiveness, adherence to best practices, and direct mention in the source material as a method for mitigating BigQuery cost impact from BI tools.</p>
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full mb-4 border border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2 border text-left">Option</th>
+                                <th class="px-4 py-2 border text-left">Analysis based on Source Material</th>
+                                <th class="px-4 py-2 border text-left">Evaluation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">A. Export data as CSV files to Google Storage every 24 hours and change reports data source to read from those files.</td>
+                                <td class="px-4 py-2 border align-top">Looker Studio can connect to data in GCS. Exporting data eliminates BigQuery query costs. However, querying large unstructured CSV files in GCS is generally less performant than querying native, optimized BigQuery tables. This approach requires an unnecessary architectural shift away from BigQuery's native, performant storage.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Less Appropriate.</strong> Sacrifices performance/usability for an indirect cost control method.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">B. Grant owner credentials for the reports on BigQuery datasets and enable caching.</td>
+                                <td class="px-4 py-2 border align-top">Granting the `roles/owner` role is extremely permissive and violates the principle of least privilege, posing a severe security risk. Basic roles are considered risky because they are too permissive. This is not a recommended practice for managing BigQuery access.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Incorrect.</strong> Violates fundamental security best practices (Principle of Least Privilege).</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">C. Configure reports data sources to update data every 24 hours only.</td>
+                                <td class="px-4 py-2 border align-top">This option directly controls the *frequency* of queries sent to BigQuery, aligning the query schedule precisely with the daily data update constraint. Looker Studio allows configuration of the data freshness settings. This guarantees that redundant queries outside the required 24-hour window are eliminated, which fundamentally minimizes the frequency multiplier. This strategy minimizes the cost multiplier associated with frequency.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Correct, but potentially suboptimal.</strong> It controls *when* the cost is incurred, guaranteeing maximum frequency reduction, but does not minimize the *cost per query*.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">D. Enable caching on reports for reading from BigQuery.</td>
+                                <td class="px-4 py-2 border align-top">The sources explicitly identify <strong>caching</strong> as a key strategy to mitigate high costs from Looker Studio usage. BigQuery offers two powerful caching mechanisms for BI tools: <strong>Materialized Views</strong> and <strong>BI Engine</strong>. <strong>BI Engine</strong> is an in-memory caching mechanism specifically for BI tools like Looker Studio. Queries using BI Engine, if under the memory capacity, can run <strong>for free</strong>. Additionally, queries served from the default BigQuery cache (temporary tables) do not incur charges. Utilizing these features maximizes the reuse of computed results, potentially reducing the cost per subsequent query to zero.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Most Appropriate Technical Solution.</strong> This option leverages built-in BigQuery features designed specifically to achieve zero cost for frequently repeated queries.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3><strong>Step 3: Analyze Cost Minimization Effectiveness (C vs. D)</strong></h3>
+                <p>The question requires minimizing costs caused by *frequent queries*.</p>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>Option C (Limit Frequency):</strong> This forces one refresh query per day. If the underlying table is large (e.g., 1 TB), this single daily query will incur a predictable cost (e.g., ~$5 per TB scanned, depending on optimization). It caps the *frequency* at the necessary rate.</li>
+                    <li><strong>Option D (Enable Caching):</strong> If caching is implemented successfully (either via default query cache, Materialized Views, or BI Engine), the first query incurs cost, but all subsequent, frequent queries (like user interactions) within the cache window run at <strong>zero charge</strong>. <strong>BI Engine</strong> is the preferred method for accelerating queries and reducing costs associated with dashboard consumption, as it provides accelerated and potentially free processing for frequently accessed "hot data".</li>
+                </ol>
+                <p>In the context of the Professional Data Engineer exam, best practices prioritize leveraging native, advanced platform features designed for massive cost optimization. Since BI Engine/Materialized Views (implied by "Enabling caching") can reduce the cost of repeated queries to zero, this is the superior method for addressing the cost implications of *frequent queries* on interactive dashboards, even if those queries are conceptually redundant.</p>
+                <p>The recommended optimization approaches for BigQuery costs resulting from Looker Studio usage include Materialized Views and BI Engine.</p>
+
+                <h3><strong>Conclusion</strong></h3>
+                <p>The most appropriate action to take, utilizing BigQuery's specific optimization features designed for BI tools, is to leverage caching mechanisms to minimize the cost of redundant queries.</p>
+                <p>The correct answer is <strong>D. Enable caching on reports for reading from BigQuery. No need to change the credentials.</strong></p>
+
+                <h4><strong>Step-by-Step Justification and Citation</strong></h4>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>Identify Cost Optimization Goal:</strong> The core objective is to minimize costs driven by high query frequency from Looker Studio. In BigQuery, high usage (frequent queries) is a primary cost multiplier.</li>
+                    <li><strong>Reject Poor Practices:</strong> Option B is immediately disqualified because granting `owner` credentials violates fundamental IAM security principles like the Principle of Least Privilege.</li>
+                    <li><strong>Compare Frequency Control vs. Caching:</strong> Although Option C provides reliable governance over data freshness matching the daily update schedule, <strong>Option D</strong> addresses the cost problem more effectively by leveraging specialized BigQuery features aimed at reducing the processing cost of redundant queries to zero.</li>
+                    <li><strong>Leverage BI Engine and Materialized Views:</strong> The sources identify Materialized Views and <strong>BI Engine</strong> as key features to improve caching and optimize BigQuery costs related to Looker Studio usage. BI Engine is an in-memory caching service specifically for BI tools that helps cache frequently accessed "hot data". Queries that hit the cache (either the default query cache or BI Engine cache) do not incur computation charges, achieving the goal of minimizing cost for frequent queries.</li>
+                    <li><strong>Final Selection Rationale:</strong> Since the frequent queries are generated by interactive dashboards, implementing caching via services like BI Engine ensures that subsequent queries (such as those triggered by user filtering) are served instantly and without charge, providing a powerful, performant, and cost-effective solution.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q19.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>
