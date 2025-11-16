@@ -112,7 +112,7 @@
   }
   ,{
     "id": "q7",
-    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures.\nWhat should you do to meet these requirements?",
+    "question": "You need to create a SQL pipeline that runs an aggregate SQL transformation on a BigQuery table every two hours and appends the result to another BigQuery table. The pipeline must be configured to retry if errors occur, and it should send an email notification after three consecutive failures. What should you do to meet these requirements?",
     "options": [
       "Use the BigQueryUpsertTableOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
       "Use the BigQueryInsertJobOperator in Cloud Composer, set the retry parameter to three, and set the email_on_failure parameter to true.",
@@ -134,7 +134,7 @@
   }
   ,{
     "id": "q8",
-    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts.\nWhat should you do to improve data discoverability across these data assets?",
+    "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts. What should you do to improve data discoverability across these data assets?",
     "options": [
       "Use Data Catalog to automatically catalog BigQuery datasets. Use Data Catalog APIs to manually catalog Pub/Sub topics and PostgreSQL tables.",
       "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables.",
@@ -244,5 +244,50 @@
     "is_verified": true,
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q12.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q13",
+    "question": "You’ve recently spent several days importing data from CSV files into a BigQuery table named CLICK_STREAM_LOGS for SkyMart Corp. The table includes a column named dt, which currently stores click event timestamps in epoch format as strings. For simplicity, you originally defined all fields as STRING data types. Now, you need to calculate web session durations based on these click events, and you want to convert dt to the TIMESTAMP type. Your goal is to keep the migration process as minimal as possible while ensuring future queries remain efficient. What should you do?",
+    "options": [
+      "Drop the CLICK_STREAM_LOGS table, recreate it with dt as a TIMESTAMP column, and reload all data.",
+      "Add a new column ts of TIMESTAMP type to CLICK_STREAM_LOGS, populate it using converted values from dt, and use ts for future queries.",
+      "Create a view CLICK_STREAM_VIEW that casts dt to TIMESTAMP on-the-fly. Use this view instead of the original table for future queries.",
+      "Add two columns to CLICK_STREAM_LOGS: a TIMESTAMP column ts and a BOOLEAN column is_new. Reload all data in append mode, setting is_new to true. In future queries, reference ts and filter using is_new = true."
+    ],
+    "correct_answers": [
+      "Add a new column ts of TIMESTAMP type to CLICK_STREAM_LOGS, populate it using converted values from dt, and use ts for future queries."
+    ],
+    "categories": [
+      "BigQuery",
+      "Data Migration",
+      "Schema Evolution",
+      "Data Types",
+      "Query Optimization"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q13.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  }
+  ,{
+    "id": "q14",
+    "question": "Let’s say the data scientists at your company have successfully built a deep neural network machine learning model to detect car plate numbers entering and exiting a parking lot of a high-rise condominium. The model was built using Tensorflow and the model was exported as SavedModel. As a data engineer, you are assigned to deploy their model. The company is using Google Cloud for its project. Which approach is best for deploying the detection model?",
+    "options": [
+      "Deploy the model to Google Kubernetes Engine after wrapping SavedModel as docker image and uploading it to Google Container Registry.",
+      "Deploy the model exported as SavedModel directly to Vertex AI in GCP.",
+      "Upload SavedModel object to Google Storage. Use Dataproc with Spark ML to use the model by accessing it using Google Storage Connector.",
+      "Deploy the model to ML module in GCP after asking the data science team to convert the model to binary format using PyTorch."
+    ],
+    "correct_answers": [
+      "Deploy the model exported as SavedModel directly to Vertex AI in GCP."
+    ],
+    "categories": [
+      "Machine Learning",
+      "Model Deployment",
+      "TensorFlow",
+      "Vertex AI"
+    ],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q14.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]
