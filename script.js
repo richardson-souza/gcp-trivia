@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const darkIcon = document.getElementById('theme-icon-dark');
     const increaseFontBtn = document.getElementById('increase-font');
     const decreaseFontBtn = document.getElementById('decrease-font');
+    const uncheckAllCategoriesBtn = document.getElementById('uncheck-all-categories');
     const body = document.body;
 
     // App state
@@ -68,6 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         increaseFontBtn.addEventListener('click', () => applyFontSize(Math.min(currentFontIndex + 1, 2)));
         decreaseFontBtn.addEventListener('click', () => applyFontSize(Math.max(currentFontIndex - 1, 0)));
+        uncheckAllCategoriesBtn.addEventListener('click', () => {
+            const checkboxes = categorySelection.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        });
 
         // Setup quiz logic listeners
         startQuizBtn.addEventListener('click', startQuiz);
@@ -127,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateCategories(categories) {
         categorySelection.innerHTML = '';
+        // Sort categories alphabetically
+        categories.sort((a, b) => a.localeCompare(b));
         categories.forEach(category => {
             const div = document.createElement('div');
             div.className = 'flex items-center';
