@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q21</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto pb-20">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>This question assesses knowledge of BigQuery data governance and security best practices, specifically focusing on granular access control for sensitive data required for production workloads like machine learning.</p>
+
+                <h3><strong>Step 1: Deconstruct the Problem and Define the Objective</strong></h3>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>Sensitive Data:</strong> The table contains Personally Identifiable Information (PII), specifically credit card numbers (<code>cc_number</code>). Protecting PII is a critical data governance requirement.</li>
+                    <li><strong>User Requirement:</strong> Data scientists need access to nearly all columns for ML training, but <em>must be strictly prevented</em> from accessing the single sensitive column (<code>cc_number</code>).</li>
+                    <li><strong>Technical Requirement:</strong> The solution must provide <strong>column-level security</strong> and be <strong>centrally governed and scalable</strong> across multiple datasets.</li>
+                </ol>
+                <p>The objective is to implement the most secure, scalable, and centrally managed mechanism in BigQuery to restrict access to a specific column.</p>
+
+                <h3><strong>Step 2: Evaluate Core BigQuery Security Mechanisms</strong></h3>
+                <p>BigQuery supports granting data access at the project, dataset, table, and column/row levels. For column-level restriction, the platform offers specific, highly governed features.</p>
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full mb-4 border border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2 border text-left">Option</th>
+                                <th class="px-4 py-2 border text-left">Mechanism & Analysis</th>
+                                <th class="px-4 py-2 border text-left">Alignment with Objective</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">A. Authorized View</td>
+                                <td class="px-4 py-2 border align-top">An authorized view uses a SQL query (like <code>SELECT * EXCEPT(cc_number)</code>) to restrict the columns exposed to users. While effective for restricting a column, managing a complex hierarchy of authorized views, especially across many datasets, is cumbersome and generally considered less scalable for a large, organizational governance strategy compared to unified tagging.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Plausible but Inferior.</strong> Lacks the centralized governance and scalability of policy tags for enterprise PII classification.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">B. Data Masking Policy to NULL</td>
+                                <td class="px-4 py-2 border align-top">Data masking is used to obscure sensitive data (e.g., replacing values with hash or NULL) while allowing users to query the column. The key limitation is that masking means the user <strong>can still query the column</strong>, but they only see the transformed (masked) data. The question asks to <strong>strictly prevent</strong> access, not just mask it.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Incorrect.</strong> Masking allows querying the column (masked result), violating the requirement to strictly prevent access to the raw data.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">C. Taxonomy and Policy Tag</td>
+                                <td class="px-4 py-2 border align-top">This is the dedicated BigQuery feature for implementing <strong>column-level access control</strong>. A <strong>Taxonomy</strong> defines the rules (e.g., PII data classification), and <strong>Policy Tags</strong> apply these rules to specific columns. To strictly prevent access, the Data Scientists are simply <strong>not granted permission to view data associated with the PII tag</strong>. This defines PII holistically and applies the rule everywhere the tag is used, making it highly scalable and centrally governed. If a user tries to select a column assigned a Policy Tag without the necessary permission, they receive an error.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Most Appropriate.</strong> This is the recommended, scalable, and centrally managed solution for column-level security on BigQuery tables.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border font-bold align-top">D. Row-Level Security (RLS)</td>
+                                <td class="px-4 py-2 border align-top">RLS policies filter access to specific <strong>rows</strong> based on user identity or group membership. RLS is used, for instance, to ensure a user only sees data from their own region. Applying RLS only filters rows; it does not restrict access to specific columns within the visible rows.</td>
+                                <td class="px-4 py-2 border align-top"><strong>Incorrect.</strong> RLS operates on rows, not columns.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3><strong>Step 3: Conclusion and Justification</strong></h3>
+                <p>The scenario requires granular control over a specific column that is PII, demanding a solution that is both secure and scalable for an enterprise environment.</p>
+                <p>The BigQuery feature designed explicitly for this requirement is <strong>Policy Tags</strong>. This feature allows the organization to define a <strong>Taxonomy</strong> that classifies sensitive data, such as a credit card number. By applying this Policy Tag to the <code>cc_number</code> column in the schema, the Data Engineer ensures that the access restriction is tied to the PII classification itself, rather than complex table-specific view definitions.</p>
+                <p>If a user (such as a Data Scientist) lacks the necessary permission for the policy tag, BigQuery will strictly prevent access to that column, returning an error when the column is selected. This meets the constraint of being secure, scalable, and centrally governed, aligning with GCP's data governance best practices.</p>
+                <p>The correct answer is <strong>Create a Taxonomy and Policy Tag (e.g., PII:CreditCard). Apply the Policy Tag to the <code>cc_number</code> column, and ensure Data Scientists are not granted permission to view data associated with that tag.</strong></p>
+
+                <hr>
+
+                <h3><strong>Citations and References</strong></h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>BigQuery supports access control up to the column level.</li>
+                    <li>Managing column-level security in BigQuery requires understanding and utilizing <strong>taxonomy</strong> and <strong>policy tags</strong>.</li>
+                    <li>The approach of using policy tags allows holistically defining PII for many columns and tables, minimizing the need to create new views or perform data transformation.</li>
+                    <li>If a user does not have access to the policy tag, they will receive an error when selecting the column, effectively strictly preventing access.</li>
+                    <li><strong>Data masking</strong> uses the same foundation but allows users to query the column to see the masked data, which is different from being strictly prevented from accessing it.</li>
+                    <li><strong>Authorized views</strong> can restrict columns, but using policy tags is the specific, centrally governed mechanism for column-level PII control.</li>
+                    <li><strong>Row-Level Security (RLS)</strong> applies filters to data rows, not columns.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

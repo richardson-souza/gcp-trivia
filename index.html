@@ -70,6 +70,10 @@
                             <label for="verified-only-enabled" class="text-lg font-medium text-gray-700 dark:text-gray-300">Apenas Verificadas</label>
                             <input type="checkbox" id="verified-only-enabled" class="h-6 w-6 rounded text-blue-600 focus:ring-blue-500">
                         </div>
+                        <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <label for="ai-questions-enabled" class="text-lg font-medium text-gray-700 dark:text-gray-300">Enable AI Questions</label>
+                            <input type="checkbox" id="ai-questions-enabled" class="h-6 w-6 rounded text-blue-600 focus:ring-blue-500" checked>
+                        </div>
                         <button id="start-quiz-btn" class="w-full bg-blue-600 text-white text-xl font-bold py-4 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg">Start Quiz</button>
                     </div>
                 </div>
@@ -85,6 +89,7 @@
                     <div class="flex items-start gap-3 mb-6 min-h-[5rem]">
                         <div id="question-text" class="text-xl sm:text-2xl font-semibold flex-grow"></div>
                         <div id="verified-icon-placeholder" class="flex-shrink-0"></div>
+                        <div id="ai-icon-placeholder" class="flex-shrink-0"></div>
                     </div>
                     <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                     <div id="quiz-actions" class="mt-8 flex gap-4">

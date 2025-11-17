@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q20</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto pb-20">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <h3>Explanation for Question Q20: BigQuery Optimization using Clustering</h3>
+                <p>This scenario describes a common performance and cost issue in BigQuery where basic partitioning is insufficient for optimizing highly selective filters on high-cardinality columns. The problem is that the existing partitioning (by <code>transaction_date</code>) successfully limits the data scanned by time, but analysts' queries frequently filter on <code>store_id</code>, which means <strong>large amounts of data are still being scanned <em>within</em> each daily partition</strong>.</p>
+
+                <h4><strong>Core Concepts: Partitioning vs. Clustering</strong></h4>
+                <p>BigQuery offers two key features to optimize large tables: partitioning and clustering.</p>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>Partitioned Tables:</strong> Divide a large logical table into smaller segments (partitions) based on a key (e.g., date). This is highly effective for reducing cost and improving performance when queries filter using the partition column. The scenario confirms that <code>transaction_date</code> partitioning is already applied and is likely working for date-based filters. Partitioning works best for <strong>low-cardinality fields</strong> (generally less than a few thousand distinct values).</li>
+                    <li><strong>Clustered Tables:</strong> Organize data <em>within</em> partitions (or non-partitioned tables) by sorting records using the specified clustering columns. This optimization is crucial for performance and cost reduction when querying based on columns that are <strong>not</strong> the partition key, especially those with **high cardinality**.</li>
+                </ol>
+                <p>When data is sorted by the cluster columns, BigQuery internally knows which storage blocks contain the required values and can **skip irrelevant blocks of data** within the partition, significantly reducing the billed bytes and improving query speed.</p>
+
+                <h4><strong>Evaluation of Options</strong></h4>
+                <p>The question asks for a <strong>factor</strong> that *could* cause slow performance.</p>
+
+                <h4>A. Use integer range partitioning on the <code>store_id</code> column instead of partitioning by <code>transaction_date</code>.</h4>
+                <ul>
+                    <li><em>Analysis:</em> BigQuery supports integer range partitioning. However, partitioning by <code>transaction_date</code> is the standard and most efficient way to manage time-series data. Switching to <code>store_id</code> partitioning would likely sacrifice the benefit of date-based pruning (which is usually necessary for massive fact tables) and would only allow partitioning on one column. The best practice is to use time-based partitioning and supplement it with clustering for high-cardinality filtering.</li>
+                </ul>
+
+                <h4>B. Change the table from on-demand pricing to BigQuery Editions (capacity-based pricing) to ensure dedicated slots.</h4>
+                <ul>
+                    <li><em>Analysis:</em> BigQuery Editions (capacity-based pricing) help control unpredictable cost fluctuations and guarantee a certain level of computational capacity (slots) to handle large workloads. However, this is a **cost allocation strategy**, not a data structure optimization. It ensures that the query runs faster or more consistently by providing dedicated resources, but it does **not** reduce the amount of data the query has to scan (bytes processed), which is the direct driver of cost in the on-demand model and a key component of execution time. The engineer should prioritize minimizing I/O before changing the pricing model.</li>
+                </ul>
+
+                <h4>C. Add CLUSTER BY (<code>store_id</code>) to the existing date-partitioned table.</h4>
+                <ul>
+                    <li><em>Analysis:</em> The scenario states that the queries are slow and expensive *because* filtering on <code>store_id</code> requires scanning large amounts of data *within each partition*. Clustering is the explicit, recommended feature for optimizing query performance and cost using a high-cardinality column like <code>store_id</code> when it is not the partition key. By clustering the table by <code>store_id</code>, BigQuery sorts the data blocks within each daily partition by store ID, allowing BigQuery to skip scanning storage blocks that do not contain the target <code>store_id</code> values. This directly addresses the described performance bottleneck.</li>
+                </ul>
+
+                <h4>D. Create a daily scheduled query to export highly aggregated sales metrics by date and store ID to a new, smaller destination table.</h4>
+                <ul>
+                    <li><em>Analysis:</em> Creating aggregated tables (or a data mart) is a strong performance optimization technique (often using materialized views or scheduled queries). However, this approach is only effective if the analysts exclusively need *pre-aggregated* data. If the analysts still need to query the raw transaction details (or different aggregations) on the 100 TB table, this solution does not optimize those ad-hoc queries. Clustering is a more flexible optimization that applies query pruning benefits directly to the source table, supporting all types of analytical queries that filter on the clustered column.</li>
+                </ul>
+
+                <h4>**Conclusion**</h4>
+                <p>The most appropriate action is to introduce clustering, as it specifically targets the issue of inefficient filtering on a non-partitioned, high-cardinality column (<code>store_id</code>) within the existing date partitions.</p>
+                <p>The correct answer is **C. Add CLUSTER BY (<code>store_id</code>) to the existing date-partitioned table.**</p>
+            </div>
+        </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q20.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>

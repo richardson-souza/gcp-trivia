@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const numQuestionsInput = document.getElementById('num-questions');
     const timerEnabledInput = document.getElementById('timer-enabled');
     const verifiedOnlyInput = document.getElementById('verified-only-enabled');
+    const aiQuestionsEnabledInput = document.getElementById('ai-questions-enabled');
     const startQuizBtn = document.getElementById('start-quiz-btn');
     const progressText = document.getElementById('progress-text');
     const timerDisplay = document.getElementById('timer-display');
@@ -160,6 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
             filteredQuestions = filteredQuestions.filter(q => q.is_verified);
         }
 
+        if (!aiQuestionsEnabledInput.checked) {
+            filteredQuestions = filteredQuestions.filter(q => !q.is_ai_generated);
+        }
+
         activeQuestions = shuffleArray(filteredQuestions).slice(0, limit);
 
         if (activeQuestions.length === 0) {
@@ -181,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayQuestion() {
         const question = activeQuestions[currentQuestionIndex];
         const verifiedIconPlaceholder = document.getElementById('verified-icon-placeholder');
+        const aiIconPlaceholder = document.getElementById('ai-icon-placeholder');
 
         progressText.textContent = `Question ${currentQuestionIndex + 1} of ${activeQuestions.length}`;
         questionText.innerHTML = question.question;
@@ -189,6 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
         verifiedIconPlaceholder.innerHTML = '';
         if (question.is_verified) {
             verifiedIconPlaceholder.innerHTML = `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        }
+
+        aiIconPlaceholder.innerHTML = '';
+        if (question.is_ai_generated) {
+            aiIconPlaceholder.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM8 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm8 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4 4c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>`;
         }
 
         const shuffledOptions = shuffleArray([...question.options]);
