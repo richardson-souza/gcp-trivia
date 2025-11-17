@@ -471,7 +471,7 @@
     ],
     "is_verified": true,
     "is_ai_generated": true,
-    "explanation": ""
+    "explanation": "<a href=\"explanations/q22.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   },
   {
     "id": "q23",
@@ -494,7 +494,7 @@
     ],
     "is_verified": true,
     "is_ai_generated": true,
-    "explanation": ""
+    "explanation": "<a href=\"explanations/q23.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   },
   {
     "id": "q24",
@@ -517,6 +517,6 @@
     ],
     "is_verified": true,
     "is_ai_generated": true,
-    "explanation": ""
+    "explanation": "<a href=\"explanations/q24.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q22</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            border: 1px solid #e2e8f0; /* Tailwind's border-gray-300 */
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #edf2f7; /* Tailwind's bg-gray-200 */
+            font-weight: bold;
+        }
+        .prose ol li {
+            margin-left: 1.5em;
+        }
+        .prose ul li {
+            margin-left: 1.5em;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto pb-20">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>This analysis focuses on identifying the architecture that meets all stringent criteria set by the question: processing high-volume, continuous data (100,000 events/second) in JSON format, performing transformation (flattening/validation), and ensuring sub-second latency for real-time dashboards.</p>
+                <p>The architecture must utilize serverless and highly scalable services, adhering to the best practices for streaming Extract, Transform, and Load (ETL) on Google Cloud Platform (GCP).</p>
+
+                <h2>Step 1: Analyze Core Requirements</h2>
+                <p>The critical requirements that drive the architectural choice are:</p>
+                <ol>
+                    <li><strong>High-Volume, Continuous Data (Streaming):</strong> Processing <strong>100,000 events per second</strong> requires highly scalable, serverless ingestion and processing tools. The entire pipeline must support streaming.</li>
+                    <li><strong>Transformation Required:</strong> The JSON data must be <strong>transformed (schema flattened and validated) <em>before</em> loading</strong>. This typically necessitates a dedicated, programmatic ETL layer rather than simple Extract and Load (EL) or relying solely on SQL-based Extract, Load, and Transform (ELT) for complex validation or flattening.</li>
+                    <li><strong>Real-Time Analytics:</strong> Analysts need <strong>sub-second latency</strong> for dashboards.</li>
+                </ol>
+
+                <h2>Step 2: Evaluate GCP Service Capabilities</h2>
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Requirement</th>
+                                <th>Best GCP Service/Component</th>
+                                <th>Rationale</th>
+                                <th>Source(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>High-Volume Ingestion</td>
+                                <td><strong>Pub/Sub</strong></td>
+                                <td>Serverless, asynchronous messaging service that autoscales to handle high throughput (over a million messages per second) and acts as the standard entry point for event streams.</td>
+                                <td>(Lakshmanan, 2022, p. 153, 169, 201); (Wijaya, 2024, p. 522)</td>
+                            </tr>
+                            <tr>
+                                <td>Streaming Transformation</td>
+                                <td><strong>Cloud Dataflow (Apache Beam)</strong></td>
+                                <td>Fully managed, serverless execution service for data processing pipelines, highly recommended for streaming ETL workloads and capable of using the same code for batch and streaming data. Apache Beam is designed to handle transformations like parsing and flattening JSON strings from Pub/Sub.</td>
+                                <td>(Lakshmanan, 2022, p. 135, 160, 169, 196); (Wijaya, 2024, p. 523, 530, 550, 649)</td>
+                            </tr>
+                            <tr>
+                                <td>Real-Time Analysis (Sub-second Latency)</td>
+                                <td><strong>BigQuery + Streaming Inserts + BI Engine</strong></td>
+                                <td>BigQuery is the serverless data warehouse optimized for analytics. <strong>Streaming inserts</strong> allow data to be queried immediately (in near real time). <strong>BI Engine</strong> provides sub-second latency for dashboards by intelligently caching frequently accessed data.</td>
+                                <td>(Lakshmanan, 2022, p. 55, 168, 385); (Costa & Hodun, 2023, p. 170); (OD\_M1\_Introduction\_to\_Building\_Batch\_Data\_Pipelines, n.d., p. 554); (OD\_M1\_Introduction\_to\_Data\_Engineering, n.d., p. 571)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Step 3: Evaluate and Eliminate Options</h2>
+
+                <h3>Option A: Use Pub/Sub for ingestion, transform the data using a Cloud Dataflow streaming pipeline built with Apache Beam, and stream the results directly into BigQuery.</h3>
+                <ul>
+                    <li><strong>Ingestion:</strong> Pub/Sub handles the 100,000 events/second scale.</li>
+                    <li><strong>Transformation:</strong> Cloud Dataflow provides the necessary scalable, serverless ETL capabilities to flatten and validate the JSON data stream using Apache Beam.</li>
+                    <li><strong>Loading/Analysis:</strong> Dataflow performs <strong>streaming inserts</strong> into BigQuery. BigQuery, particularly when leveraged with BI Engine, delivers the required sub-second query latency for real-time dashboards.</li>
+                </ul>
+                <p>This option aligns perfectly with the recommended streaming ETL reference architecture on GCP for real-time analytics.</p>
+
+                <h3>Option B: Stream raw JSON data directly into BigQuery using the Streaming API, and then use SQL Multi-statement queries with views to perform transformations on the raw data.</h3>
+                <ul>
+                    <li><strong>Incurs ETL challenges:</strong> This proposes an ELT pattern. While BigQuery supports JSON parsing and views for transformation, using this approach when complex transformation and validation <em>must</em> occur is generally less robust and more difficult than using a dedicated pipeline tool like Dataflow (ETL). The prompt requires transformation <em>before</em> loading (implying ETL), or at least transformation in transit, rather than relying on complex post-load SQL queries constantly hitting the raw streaming buffer for real-time views.</li>
+                    <li><strong>Conclusion:</strong> Less efficient and scalable for mandatory complex real-time transformation logic compared to Option A.</li>
+                </ul>
+
+                <h3>Option C: Stream the data into Cloud Bigtable using a Dataflow sink, and use BigQuery Federated Queries for real-time dashboards.</h3>
+                <ul>
+                    <li><strong>Bigtable Suitability:</strong> Cloud Bigtable is excellent for high-throughput, low-latency data storage, often used for time-series data and IoT.</li>
+                    <li><strong>Latency Failure:</strong> BigQuery <strong>federated queries</strong> reading external data sources like Bigtable are inherently <strong>slower</strong> than querying data stored natively in BigQuery. For highly interactive dashboards demanding sub-second latency, querying native BigQuery tables (using BI Engine) is the preferred approach, making Bigtable an inappropriate final sink for this specific analytical latency requirement.</li>
+                    <li><strong>Conclusion:</strong> Fails the sub-second latency requirement due to the performance characteristics of federated queries.</li>
+                </ul>
+
+                <h3>Option D: Use Cloud Composer to schedule hourly ETL jobs via Dataproc Serverless for Spark, reading from Pub/Sub and writing transformed data to BigQuery.</h3>
+                <ul>
+                    <li><strong>Fails Real-Time Requirement:</strong> Scheduling jobs hourly contradicts the need to process <strong>continuous event data</strong> for **real-time** risk dashboards. Cloud Composer is an orchestration tool best suited for complex, multi-step **batch** workflows.</li>
+                    <li><strong>Spark Streaming Limitation:</strong> Dataproc Serverless for Spark, as noted in the sources, did not support streaming workloads at the time of writing, further cementing this option as a batch solution only.</li>
+                    <li><strong>Conclusion:</strong> Fails the fundamental requirement for real-time, continuous processing.</li>
+                </ul>
+
+                <h2>Step 4: Conclusion</h2>
+                <p>Option A provides the most efficient and scalable architecture by combining the best-of-breed serverless technologies optimized for streaming data: Pub/Sub for ingestion, Dataflow for highly scalable ETL transformation, and BigQuery (with BI Engine capabilities for sub-second query time) for real-time analytics.</p>
+                <p>The correct answer is: <strong>Use Pub/Sub for ingestion, transform the data using a Cloud Dataflow streaming pipeline built with Apache Beam, and stream the results directly into BigQuery.</strong></p>
+
+                <hr>
+
+                <h3>Citation Details (APA Format):</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>(Costa & Hodun, 2023, p. 170, 195)</li>
+                    <li>(Lakshmanan, 2022, p. 135, 153, 160, 168, 169, 196, 252, 385, 389)</li>
+                    <li>(Lakshmanan & Tigani, 2020, p. 304, 305, 307, 309, 326, 335, 381, 452)</li>
+                    <li>(OD\_M1\_Introduction\_to\_Building\_Batch\_Data\_Pipelines, n.d., p. 543, 548, 549, 550, 554)</li>
+                    <li>(OD\_M1\_Introduction\_to\_Data\_Engineering, n.d., p. 565, 571)</li>
+                    <li>(OD\_M2\_Building\_a\_Data\_Lake, n.d., p. 588)</li>
+                    <li>(OD\_M3\_Building\_a\_Data\_Warehouse, n.d., p. 596)</li>
+                    <li>(OD\_M3\_Serverless\_Data\_Processing\_with\_Dataflow, n.d., p. 649)</li>
+                    <li>(Pub/Sub, n.d., p. 696)</li>
+                    <li>(Wijaya, 2024, p. 38, 43, 201, 519, 520, 522, 523)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q22.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>

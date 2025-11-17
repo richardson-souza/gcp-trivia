@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question q24</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .prose ol li {
+            margin-left: 1.5em;
+        }
+        .prose ul li {
+            margin-left: 1.5em;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto pb-20">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Explanation</h1>
+            <div class="prose prose-lg max-w-none">
+                <p>This analysis simulates the process of answering a specialized Professional Data Engineer examination question focusing on BigQuery cost optimization and data locality principles within Google Cloud Platform (GCP).</p>
+
+                <h2>Step 1: Analyze Core Requirements and Identify the Root Cause</h2>
+                <p>The scenario presents a classic GCP cost problem involving data spread across different geographic regions.</p>
+                <ol>
+                    <li><strong>Data Location (Source):</strong> Table resides in Project B, region <strong><code>us-central1</code></strong>.</li>
+                    <li><strong>Query Location (Billing):</strong> Analyst executes the query from Project A, region <strong><code>europe-west1</code></strong>. Project A is billed for the query.</li>
+                    <li><strong>Problem:</strong> Analyst incurs <strong>high egress charges</strong>.</li>
+                </ol>
+                <p>The fundamental architectural principle in BigQuery is that data processing should occur in the location where the data resides to avoid unnecessary data movement. BigQuery is a regional service.</p>
+                <p>When Project A (<code>europe-west1</code>) queries a large table (50 TB) located in Project B (<code>us-central1</code>), if the query is processed in Project A's region, the massive dataset (50 TB) must be moved across the public network from <code>us-central1</code> to <code>europe-west1</code> for computation, which incurs significant cross-region network charges (egress). Even if the processing happens in <code>us-central1</code>, returning a potentially large result set to the client executing the query in <code>europe-west1</code> would also incur egress costs, which are minimized if the processing and data are co-located.</p>
+                <p><strong>The objective is to force the computation (the slots used to read and process the 50 TB of data) to run in the data's region (<code>us-central1</code>) without permanently moving the data.</strong></p>
+
+                <h2>Step 2: Apply Exam Technique (Elimination and Precision)</h2>
+                <p>We apply techniques of focusing on the critical component (data locality/egress) and eliminating options that violate this principle or address a secondary concern.</p>
+
+                <h3>Option A: Use Pub/Sub for ingestion, transform the data using a Cloud Dataflow streaming pipeline built with Apache Beam, and stream the results directly into BigQuery.</h3>
+                <p><strong>Evaluation:</strong> This option is irrelevant to the problem. This question focuses on minimizing cross-region costs during an <em>ad-hoc SQL query</em> against an <em>existing</em> 50 TB BigQuery table. Data Transfer Service (DTS) or BigQuery cross-region dataset copy can move data, but moving 50 TB of data between regions explicitly incurs network transfer charges/egress, which is exactly what the user wants to minimize, not initiate.</p>
+
+                <h3>Option B: In Project A, enable BigQuery BI Engine reservation capacity to accelerate the query and mitigate transfer latency.</h3>
+                <p><strong>Evaluation:</strong> BI Engine is an in-memory caching mechanism designed to accelerate dashboards and analytics by providing sub-second latency for frequently accessed data. While it improves query <em>speed</em> (latency), it does not change the billing location or the location where the underlying 50 TB of data must be processed if a full scan is required. BI Engine addresses query performance, not cross-region egress costs caused by data movement for computation.</p>
+
+                <h3>Option C: The analyst must set the query job's processing location (or region) to <code>us-central1</code> (Project B's region).</h3>
+                <p><strong>Evaluation:</strong> BigQuery allows the user to explicitly specify the <strong>Processing Location</strong> when submitting a query. By setting the processing location to <strong><code>us-central1</code></strong> (the region where the 50 TB table resides), the data processing occurs adjacent to the storage. This prevents the vast amount of data (50 TB) from being read and moved across regions for computation, thereby minimizing the primary source of high egress charges. The cost of the query (compute) is still charged to Project A, but the high cross-region movement cost for the bulk data read is eliminated. This directly solves the problem.</p>
+
+                <h3>Option D: Use a BigLake external table definition in Project A, pointing to the original table data in Project B.</h3>
+                <p><strong>Evaluation:</strong> BigLake tables are primarily designed to query data located in <strong>external object stores</strong> (like Cloud Storage or AWS S3) with enhanced performance and security, acting as a unified interface between data lakes and data warehouses. The 50 TB table in Project B is a BigQuery <em>native</em> table. Even if the BigLake paradigm were applied, the core issue remains the regional configuration of the query execution. This configuration does not solve the fundamental need to control the job processing location for a native BigQuery table to avoid egress.</p>
+
+                <h2>Step 3: Conclusion</h2>
+                <p>The most effective and scalable configuration change to minimize cross-region data egress charges in a cross-project BigQuery query is to ensure that the compute job runs in the same region as the source data.</p>
+                <p>The correct answer is: <strong>The analyst must set the query job's processing location (or region) to <code>us-central1</code> (Project B's region).</strong></p>
+
+                <hr>
+
+                <h3>Citations (APA Format):</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>(Wijaya, 2024, pp. 469, 470)</li>
+                    <li>(Lakshmanan, 2022, pp. 320, 363, 370, 400, 401, 428, 431, 472)</li>
+                    <li>(Costa & Hodun, 2023, p. 161)</li>
+                    <li>(OD\_M3\_Building\_a\_Data\_Warehouse, n.d., pp. 657, 659, 662)</li>
+                    <li>(OD\_M1\_Introduction\_to\_Building\_Batch\_Data\_Pipelines, n.d., p. 624)</li>
+                    <li>(OD\_M3\_The\_Extract\_and\_Load\_Data\_Pipeline\_Pattern, n.d., pp. 589, 590, 593, 595)</li>
+                    <li>(BigQuery IAM roles and permissions | Google Cloud, n.d., p. 255)</li>
+                    <li>(Google BigQuery, 2020, p. 336)</li>
+                    <li>(Using cached query results | BigQuery | Google Cloud Documentation, n.d., p. 727)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
