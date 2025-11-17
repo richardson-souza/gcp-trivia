@@ -404,8 +404,8 @@
     "is_verified": true,
     "is_ai_generated": false,
     "explanation": "<a href=\"explanations/q19.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
-  }
-  ,{
+  },
+  {
     "id": "q20",
     "question": "A large retail company manages a 100 TB `sales_transactions` table in BigQuery. The table is partitioned by `transaction_date`. Analysts frequently run queries filtering by the `store_id` (an INT64 column with high cardinality) and applying aggregations. They report that despite the date partitioning, these queries remain slow and expensive because the filter on `store_id` is highly selective but requires scanning large amounts of data within each partition. Which action should the data engineer take to optimize performance and minimize query costs for queries that frequently filter on `store_id`?",
     "options": [
@@ -518,5 +518,20 @@
     "is_verified": true,
     "is_ai_generated": true,
     "explanation": "<a href=\"explanations/q24.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+  },
+  {
+    "id": "q25",
+    "question": "At WeatherSense Labs, you're developing a machine learning model to predict rainfall for a given day. Your dataset contains thousands of input features, and you want to explore ways to speed up model training while keeping the impact on accuracy minimal. What approach should you consider?",
+    "options": [
+      "Remove features that show a strong correlation with the target label.",
+      "Merge features that are highly interdependent into a single representative feature.",
+      "Group every 3 features and use their average as a new combined input instead of individual values.",
+      "Drop features where more than 50% of the training data contains null values."
+    ],
+    "correct_answers": ["Merge features that are highly interdependent into a single representative feature."],
+    "categories": ["Machine Learning", "Feature Engineering", "Performance Tuning"],
+    "is_verified": true,
+    "is_ai_generated": false,
+    "explanation": "<a href=\"explanations/q25.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
   }
 ]
