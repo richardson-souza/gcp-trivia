@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadQuestions() {
         try {
             const questionPromises = [];
-            for (let i = 1; i <= 28; i++) {
+            for (let i = 1; i <= 29; i++) {
                 questionPromises.push(fetch(`questions/q${i}.json`).then(res => res.json()));
             }
             allQuestions = await Promise.all(questionPromises);

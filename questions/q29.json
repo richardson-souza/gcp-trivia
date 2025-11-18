@@ -1,0 +1,22 @@
+{
+  "id": "q29",
+  "question": "Zenith Corp runs a critical 24/7 streaming Dataflow pipeline that processes financial events from Pub/Sub to BigQuery. The data engineering team must implement a major update to the complex aggregation logic (a CoGroupByKey operation) which requires changing the pipeline graph significantly. Downtime is strictly prohibited, but the destination BigQuery table can handle temporary duplicates that are later resolved. Which strategy minimizes disruption and maximizes efficiency during this update?",
+  "options": [
+    "A. Use the Drain option on the current job and launch the new job immediately afterward to ensure all in-flight data is processed before the switch.",
+    "B. Use the automated parallel pipeline update deployment workflow, launching the new job with a different name and specifying the duration of overlap.",
+    "C. Stop the existing job using the Cancel option and launch the new job with the same name to automatically inherit state.",
+    "D. Perform an in-flight job update, modifying the max-num-workers and updating the pipeline code simultaneously without changing the Job ID."
+  ],
+  "correct_answers": [
+    "B. Use the automated parallel pipeline update deployment workflow, launching the new job with a different name and specifying the duration of overlap."
+  ],
+  "categories": [
+    "Dataflow",
+    "Streaming",
+    "Deployment",
+    "BigQuery"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q29.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}
