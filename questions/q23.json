@@ -1,0 +1,23 @@
+{
+  "id": "q23",
+  "question": "A data engineering team is optimizing query performance for existing BI dashboards that frequently join a 5 TB `Fact_Events` table with a 50 GB `Dim_Attributes` table using a non-integer foreign key. These joins result in high query execution times dominated by the shuffle stage. The goal is to maximize performance for read operations with minimum computational overhead. Based on BigQuery modeling best practices for minimizing shuffle and I/O costs, what is the best architectural change to implement?",
+  "options": [
+    "Keep the tables separate but apply clustering to both tables using the foreign key column to improve join efficiency.",
+    "Denormalize the data by embedding the `Dim_Attributes` fields into the `Fact_Events` table using nested and repeated fields.",
+    "Refactor the foreign key column in both tables from STRING to INT64 to optimize comparison performance during the JOIN operation.",
+    "Convert the dimension table into a BigQuery Materialized View to ensure the attribute lookups are cached."
+  ],
+  "correct_answers": [
+    "Denormalize the data by embedding the `Dim_Attributes` fields into the `Fact_Events` table using nested and repeated fields."
+  ],
+  "categories": [
+    "BigQuery",
+    "Data Processing",
+    "Architecture",
+    "Performance Tuning",
+    "Data Modeling"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q23.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

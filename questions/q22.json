@@ -1,0 +1,23 @@
+{
+  "id": "q22",
+  "question": "A financial application generates high-volume, continuous event data in JSON format that needs to be ingested into BigQuery. The data must be transformed (schema flattened and validated) before loading, and must be queryable by analysts with sub-second latency for real-time risk dashboards. The current processing rate is approximately 100,000 events per second. Which architecture represents the most efficient and scalable pattern for ingesting, transforming, and analyzing this streaming data in BigQuery?",
+  "options": [
+    "Use Pub/Sub for ingestion, transform the data using a Cloud Dataflow streaming pipeline built with Apache Beam, and stream the results directly into BigQuery.",
+    "Stream raw JSON data directly into BigQuery using the Streaming API, and then use SQL Multi-statement queries with views to perform transformations on the raw data.",
+    "Stream the data into Cloud Bigtable using a Dataflow sink, and use BigQuery Federated Queries for real-time dashboards.",
+    "Use Cloud Composer to schedule hourly ETL jobs via Dataproc Serverless for Spark, reading from Pub/Sub and writing transformed data to BigQuery."
+  ],
+  "correct_answers": [
+    "Use Pub/Sub for ingestion, transform the data using a Cloud Dataflow streaming pipeline built with Apache Beam, and stream the results directly into BigQuery."
+  ],
+  "categories": [
+    "BigQuery",
+    "Dataflow",
+    "Pub/Sub",
+    "ETL",
+    "Real-time Alerts"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q22.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

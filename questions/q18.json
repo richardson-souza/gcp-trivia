@@ -1,0 +1,24 @@
+{
+  "id": "q18",
+  "question": "Let\u2019s say your team decided to use BigTable for storing event data. The engineer responsible of launching and testing the instance has reported a slower performance than expected by Google Cloud documentation. Which of the following could be a factor for the slow performance?",
+  "options": [
+    "The rows in the tables have large data size.",
+    "The instance doesn\u2019t have enough nodes.",
+    "Test data size is over 300GB.",
+    "The rows in the tables tested contain high number of cells."
+  ],
+  "correct_answers": [
+    "The rows in the tables have large data size.",
+    "The instance doesn\u2019t have enough nodes.",
+    "The rows in the tables tested contain high number of cells."
+  ],
+  "categories": [
+    "BigTable",
+    "Performance Tuning",
+    "Database",
+    "Troubleshooting"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q18.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

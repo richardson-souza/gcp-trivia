@@ -1,0 +1,23 @@
+{
+  "id": "q24",
+  "question": "An analyst in Project A (`europe-west1`) needs to run an ad-hoc SQL query against a 50 TB table located in Project B (`us-central1`). Project A uses BigQuery On-Demand pricing. The analyst has been granted the necessary `bigquery.dataViewer` role on the table in Project B. When running the query, the analyst encounters high egress charges. What configuration setting must the analyst change to execute this cross-project query while minimizing cross-region data egress charges?",
+  "options": [
+    "Set the BigQuery Data Transfer Service to automatically move the table from Project B's region to Project A's region before querying.",
+    "In Project A, enable BigQuery BI Engine reservation capacity to accelerate the query and mitigate transfer latency.",
+    "The analyst must set the query job's processing location (or region) to `us-central1` (Project B's region).",
+    "Use a BigLake external table definition in Project A, pointing to the original table data in Project B."
+  ],
+  "correct_answers": [
+    "The analyst must set the query job's processing location (or region) to `us-central1` (Project B's region)."
+  ],
+  "categories": [
+    "BigQuery",
+    "Cost Optimization",
+    "Architecture",
+    "Data Migration",
+    "GCP Best Practices"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q24.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

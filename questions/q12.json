@@ -1,0 +1,23 @@
+{
+  "id": "q12",
+  "question": "You are rolling out 10,000 IoT sensors across FusionWare Inc.\u2019s global warehouses to monitor temperature readings. These devices will generate high volumes of data, and your goal is to process, store, and analyze this data in real time. What is the most suitable approach?",
+  "options": [
+    "Ingest the data into Cloud Datastore, then export it to BigQuery for analysis.",
+    "Stream the data through Cloud Pub/Sub, use Cloud Dataflow for processing, and store the results in BigQuery.",
+    "Store the data in Cloud Storage, and spin up an Apache Hadoop cluster on Cloud Dataproc whenever analysis is needed.",
+    "Export logs in batches to Cloud Storage, spin up a Cloud SQL instance, import the data, and perform analysis when required."
+  ],
+  "correct_answers": [
+    "Stream the data through Cloud Pub/Sub, use Cloud Dataflow for processing, and store the results in BigQuery."
+  ],
+  "categories": [
+    "IoT",
+    "Real-time Processing",
+    "Data Ingestion",
+    "Data Processing",
+    "Analytics"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q12.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

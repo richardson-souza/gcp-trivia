@@ -1,0 +1,21 @@
+{
+  "id": "q2",
+  "question": "Your team needs to migrate a 15 TB on-premises Hadoop cluster to the cloud. The main goal is to minimize operational overhead and separate storage from compute. What is the most cost-effective and efficient approach?",
+  "options": [
+    "Lift and shift the entire cluster to Compute Engine VMs.",
+    "Use HDFS on a persistent Dataproc cluster.",
+    "Migrate data to Cloud Storage and use ephemeral Dataproc clusters for jobs.",
+    "Ingest all data into Cloud Spanner."
+  ],
+  "correct_answers": [
+    "Migrate data to Cloud Storage and use ephemeral Dataproc clusters for jobs."
+  ],
+  "categories": [
+    "Data Migration",
+    "Data Processing",
+    "Cost Optimization"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "Storing data in <strong>Cloud Storage</strong> decouples storage and compute, which is highly cost-effective. You can then spin up <strong>ephemeral Dataproc clusters</strong> only when you need to run jobs, paying for compute resources on-demand. This is a core best practice for Hadoop/Spark on GCP."
+}

@@ -45,17 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DATA LOADING ---
     async function loadQuestions() {
         try {
-            const response = await fetch('questions.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const questionPromises = [];
+            for (let i = 1; i <= 25; i++) {
+                questionPromises.push(fetch(`questions/q${i}.json`).then(res => res.json()));
             }
-            allQuestions = await response.json();
+            allQuestions = await Promise.all(questionPromises);
             initializeApp();
         } catch (error) {
             console.error('Error loading questions:', error);
             document.body.innerHTML = `<div class="p-4 text-center text-red-500">
                 <h1 class="font-bold text-xl">Failed to load quiz data</h1>
-                <p>Please make sure the 'questions.json' file is in the same directory.</p>
+                <p>Please make sure the 'questions' directory with all question files is available.</p>
                 <p><strong>Note:</strong> If opening this as a local file, your browser might block the request. Please use a local server.</p>
             </div>`;
         }

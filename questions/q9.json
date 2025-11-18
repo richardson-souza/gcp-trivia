@@ -1,0 +1,21 @@
+{
+  "id": "q9",
+  "question": "Let\u2019s say you work as a data engineer in an organization with a large amount of data. They use Google Big Table to store their web service\u2019s activity logs for faster retrieval and update. What will happen if the BigTable node fails?",
+  "options": [
+    "None of the above",
+    "Recover data from Cloud Storage when the node comes back online",
+    "Data will not be lost",
+    "Data will be lost"
+  ],
+  "correct_answers": [
+    "Data will not be lost"
+  ],
+  "categories": [
+    "BigTable",
+    "Architecture",
+    "Reliability"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q9.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

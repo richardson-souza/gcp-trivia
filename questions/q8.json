@@ -1,0 +1,23 @@
+{
+  "id": "q8",
+  "question": "Your organization stores data in BigQuery, Pub/Sub, and a PostgreSQL instance running on Compute Engine. Due to multiple domains and diverse teams using the data, the teams have difficulty discovering the existing data assets. You need to create a solution that improves data discoverability while minimizing development and configuration efforts. What should you do to improve data discoverability across these data assets?",
+  "options": [
+    "Use Data Catalog to automatically catalog BigQuery datasets. Use Data Catalog APIs to manually catalog Pub/Sub topics and PostgreSQL tables.",
+    "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables.",
+    "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use custom connectors to manually catalog PostgreSQL tables.",
+    "Use customer connectors to manually catalog BigQuery datasets, Pub/Sub topics, and PostgreSQL tables."
+  ],
+  "correct_answers": [
+    "Use Data Catalog to automatically catalog BigQuery datasets and Pub/Sub topics. Use Data Catalog APIs to manually catalog PostgreSQL tables."
+  ],
+  "categories": [
+    "Data Catalog",
+    "Data Governance",
+    "BigQuery",
+    "Pub/Sub",
+    "PostgreSQL"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q8.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

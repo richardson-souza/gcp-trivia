@@ -1,0 +1,23 @@
+{
+  "id": "q11",
+  "question": "A new data scientist named Ava has joined TechNova Solutions. She needs to carry out complex analyses on large datasets stored in Google Cloud Storage and a Cassandra cluster running on Google Compute Engine. Her primary goal is to generate labeled datasets for machine learning and perform some data visualizations. Ava mentions that her current laptop lacks the computing power required and is causing delays. You want to assist her in completing her tasks efficiently. What should you do?",
+  "options": [
+    "Set up and run a local Jupyter notebook on her laptop.",
+    "Provide her with access to Google Cloud Shell.",
+    "Launch a visualization application on a virtual machine in Google Compute Engine.",
+    "Deploy Google Cloud Datalab on a virtual machine in Google Compute Engine."
+  ],
+  "correct_answers": [
+    "Deploy Google Cloud Datalab on a virtual machine in Google Compute Engine."
+  ],
+  "categories": [
+    "Data Science",
+    "Machine Learning",
+    "Big Data",
+    "Compute Engine",
+    "Data Visualization"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q11.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

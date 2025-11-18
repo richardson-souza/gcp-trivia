@@ -1,0 +1,22 @@
+{
+  "id": "q14",
+  "question": "Let\u2019s say the data scientists at your company have successfully built a deep neural network machine learning model to detect car plate numbers entering and exiting a parking lot of a high-rise condominium. The model was built using Tensorflow and the model was exported as SavedModel. As a data engineer, you are assigned to deploy their model. The company is using Google Cloud for its project. Which approach is best for deploying the detection model?",
+  "options": [
+    "Deploy the model to Google Kubernetes Engine after wrapping SavedModel as docker image and uploading it to Google Container Registry.",
+    "Deploy the model exported as SavedModel directly to Vertex AI in GCP.",
+    "Upload SavedModel object to Google Storage. Use Dataproc with Spark ML to use the model by accessing it using Google Storage Connector.",
+    "Deploy the model to ML module in GCP after asking the data science team to convert the model to binary format using PyTorch."
+  ],
+  "correct_answers": [
+    "Deploy the model exported as SavedModel directly to Vertex AI in GCP."
+  ],
+  "categories": [
+    "Machine Learning",
+    "Model Deployment",
+    "TensorFlow",
+    "Vertex AI"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q14.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

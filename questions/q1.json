@@ -1,0 +1,21 @@
+{
+  "id": "q1",
+  "question": "You are running a BigQuery project using the on-demand billing model, and you are executing a change data capture (CDC) process that ingests data. The CDC process loads 1 GB of data every 10 minutes into a temporary table and performs a merge into a 10 TB target table. This process is resource-intensive and involves significant scanning. You want to explore options to implement a predictable cost model. You need to create a BigQuery reservation based on usage data gathered from BigQuery Monitoring and apply the reservation to the CDC process.",
+  "options": [
+    "Create a BigQuery reservation for the dataset.",
+    "Create a BigQuery reservation for the job.",
+    "Create a BigQuery reservation for the service account running the job.",
+    "Create a BigQuery reservation for the project."
+  ],
+  "correct_answers": [
+    "Create a BigQuery reservation for the project."
+  ],
+  "categories": [
+    "Data Ingestion",
+    "Data Processing",
+    "Analytics"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "For real-time, large-scale scenarios, <strong>Cloud Pub/Sub</strong> is the ideal ingestion service due to its scalability and durability. <strong>Cloud Dataflow</strong> provides a managed Apache Beam environment for stream (and batch) processing. Finally, <strong>BigQuery</strong> is the premier data warehouse for large-scale analytics."
+}

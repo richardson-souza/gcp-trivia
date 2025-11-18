@@ -1,0 +1,22 @@
+{
+  "id": "q19",
+  "question": "Let\u2019s say you have several Data Studio reports reading from BigQuery. Those reports are used to visualize several metrics for marketing team. Data visualized is updated only once a day. You notice that reports running queries on BigQuery are not free and they cost for each query. You want to control and minimize the costs caused by frequent queries coming from Data Studio dashboards.What should you do?",
+  "options": [
+    "Export data as CSV files to Google Storage every 24 hours and change reports data source to read from those files.",
+    "Grant owner credentials for the reports on BigQuery datasets and enable caching.",
+    "Configure reports data sources to update data every 24 hours only.",
+    "Enable caching on reports for reading from BigQuery. No need to change the credentials."
+  ],
+  "correct_answers": [
+    "Enable caching on reports for reading from BigQuery. No need to change the credentials."
+  ],
+  "categories": [
+    "BigQuery",
+    "Data Studio",
+    "Cost Optimization",
+    "Analytics"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q19.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

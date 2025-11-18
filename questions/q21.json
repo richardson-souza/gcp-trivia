@@ -1,0 +1,23 @@
+{
+  "id": "q21",
+  "question": "A company stores sensitive customer PII, including credit card numbers (`cc_number`), in a large BigQuery table. Data scientists require access to most columns for machine learning model training but must be strictly prevented from accessing the `cc_number` column. The solution must be centrally governed and scalable across multiple datasets. What is the most secure and scalable approach to restrict the Data Scientists' access to the `cc_number` column?",
+  "options": [
+    "Grant the Data Scientists the `roles/bigquery.dataViewer` role and use an authorized view that executes `SELECT * EXCEPT(cc_number)` to provide access.",
+    "Apply a Data Masking Policy to the `cc_number` column that replaces the values with NULL, ensuring users without specific permissions see no data.",
+    "Create a Taxonomy and Policy Tag (e.g., PII:CreditCard). Apply the Policy Tag to the `cc_number` column, and ensure Data Scientists are not granted permission to view data associated with that tag.",
+    "Use BigQuery Row-Level Security policies to filter out all rows where the `cc_number` column is populated, preventing access to the data."
+  ],
+  "correct_answers": [
+    "Create a Taxonomy and Policy Tag (e.g., PII:CreditCard). Apply the Policy Tag to the `cc_number` column, and ensure Data Scientists are not granted permission to view data associated with that tag."
+  ],
+  "categories": [
+    "BigQuery",
+    "Security",
+    "Data Governance",
+    "Data privacy",
+    "IAM"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q21.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "q25",
+  "question": "At WeatherSense Labs, you're developing a machine learning model to predict rainfall for a given day. Your dataset contains thousands of input features, and you want to explore ways to speed up model training while keeping the impact on accuracy minimal. What approach should you consider?",
+  "options": [
+    "Remove features that show a strong correlation with the target label.",
+    "Merge features that are highly interdependent into a single representative feature.",
+    "Group every 3 features and use their average as a new combined input instead of individual values.",
+    "Drop features where more than 50% of the training data contains null values."
+  ],
+  "correct_answers": [
+    "Merge features that are highly interdependent into a single representative feature."
+  ],
+  "categories": [
+    "Machine Learning",
+    "Feature Engineering",
+    "Performance Tuning"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q25.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "q4",
+  "question": "Let's say you have been using BigTable instance with HDD as storage type. You want to increase the performance of the instance by changing the storage type to SSD. You want to make sure the data will not be lost. How can you achieve that?",
+  "options": [
+    "From the Google Cloud console UI, you can switch the storage type from HDD to SDD. Data will be moved to a new storage type. Instance will be in write-only mode by this time until the migration is complete.",
+    "From Google Cloud console UI, you can switch the storage type from HDD to SDD. Data will be moved to new storage type. Instance will be inaccessible by this time until migration is complete.",
+    "Export the data to Cloud Storage in Avro format using Dataflow template and import data into new BigTable instance using Dataflow GCS Avro to BigTable",
+    "From Google Cloud console UI, you can switch the storage type from HDD to SDD. Data will be moved to new storage type. Instance will be in read-only mode by this time until the migration is complete."
+  ],
+  "correct_answers": [
+    "Export the data to Cloud Storage in Avro format using Dataflow template and import data into new BigTable instance using Dataflow GCS Avro to BigTable"
+  ],
+  "categories": [
+    "Data Migration",
+    "BigTable",
+    "Dataflow"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q4.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q3",
+  "question": "You need to ensure data quality and transform CSV files before loading them into BigQuery. The files may contain corrupted rows. Which services are best suited for building a robust, serverless ETL pipeline to handle this? (Select all that apply)",
+  "options": [
+    "Cloud Functions triggered by Cloud Storage events.",
+    "A Dataflow pipeline that validates and transforms data.",
+    "A Dataprep by Trifacta job.",
+    "Loading data directly and cleaning it with SQL in BigQuery."
+  ],
+  "correct_answers": [
+    "Cloud Functions triggered by Cloud Storage events.",
+    "A Dataflow pipeline that validates and transforms data.",
+    "A Dataprep by Trifacta job."
+  ],
+  "categories": [
+    "ETL",
+    "Data Quality",
+    "Data Processing"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "Multiple serverless options exist. <strong>Cloud Functions</strong> can handle lightweight, event-driven transformations. <strong>Dataflow</strong> is ideal for complex, large-scale transformations and can route bad records to a dead-letter queue. <strong>Dataprep</strong> provides a visual interface for building data cleaning and transformation rules, which then runs a Dataflow job under the hood. While cleaning in BigQuery is possible, it's often better to clean the data *before* loading to ensure the data warehouse stays clean."
+}

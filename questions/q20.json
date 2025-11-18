@@ -1,0 +1,22 @@
+{
+  "id": "q20",
+  "question": "A large retail company manages a 100 TB `sales_transactions` table in BigQuery. The table is partitioned by `transaction_date`. Analysts frequently run queries filtering by the `store_id` (an INT64 column with high cardinality) and applying aggregations. They report that despite the date partitioning, these queries remain slow and expensive because the filter on `store_id` is highly selective but requires scanning large amounts of data within each partition. Which action should the data engineer take to optimize performance and minimize query costs for queries that frequently filter on `store_id`?",
+  "options": [
+    "Use integer range partitioning on the `store_id` column instead of partitioning by `transaction_date`.",
+    "Change the table from on-demand pricing to BigQuery Editions (capacity-based pricing) to ensure dedicated slots.",
+    "Add CLUSTER BY (`store_id`) to the existing date-partitioned table.",
+    "Create a daily scheduled query to export highly aggregated sales metrics by date and store ID to a new, smaller destination table."
+  ],
+  "correct_answers": [
+    "Add CLUSTER BY (`store_id`) to the existing date-partitioned table."
+  ],
+  "categories": [
+    "BigQuery",
+    "Cost Optimization",
+    "Performance Tuning",
+    "Architecture"
+  ],
+  "is_verified": true,
+  "is_ai_generated": true,
+  "explanation": "<a href=\"explanations/q20.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

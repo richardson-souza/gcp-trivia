@@ -1,0 +1,23 @@
+{
+  "id": "q13",
+  "question": "You\u2019ve recently spent several days importing data from CSV files into a BigQuery table named CLICK_STREAM_LOGS for SkyMart Corp. The table includes a column named dt, which currently stores click event timestamps in epoch format as strings. For simplicity, you originally defined all fields as STRING data types. Now, you need to calculate web session durations based on these click events, and you want to convert dt to the TIMESTAMP type. Your goal is to keep the migration process as minimal as possible while ensuring future queries remain efficient. What should you do?",
+  "options": [
+    "Drop the CLICK_STREAM_LOGS table, recreate it with dt as a TIMESTAMP column, and reload all data.",
+    "Add a new column ts of TIMESTAMP type to CLICK_STREAM_LOGS, populate it using converted values from dt, and use ts for future queries.",
+    "Create a view CLICK_STREAM_VIEW that casts dt to TIMESTAMP on-the-fly. Use this view instead of the original table for future queries.",
+    "Add two columns to CLICK_STREAM_LOGS: a TIMESTAMP column ts and a BOOLEAN column is_new. Reload all data in append mode, setting is_new to true. In future queries, reference ts and filter using is_new = true."
+  ],
+  "correct_answers": [
+    "Add a new column ts of TIMESTAMP type to CLICK_STREAM_LOGS, populate it using converted values from dt, and use ts for future queries."
+  ],
+  "categories": [
+    "BigQuery",
+    "Data Migration",
+    "Schema Evolution",
+    "Data Types",
+    "Query Optimization"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q13.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

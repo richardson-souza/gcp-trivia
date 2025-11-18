@@ -1,0 +1,23 @@
+{
+  "id": "q6",
+  "question": "You are monitoring your organization's data lake hosted on BigQuery. The ingestion pipelines read data from Pub/Sub and write the data into tables on BigQuery. After deploying a new version of the ingestion pipelines, the daily stored data increased by 50%. The volumes of data in Pub/Sub remained the same and only some tables had their daily partition data size doubled. You need to investigate and resolve the cause of the data increase. What should you do to investigate and fix the cause of the data increase?",
+  "options": [
+    "1. Check for duplicate rows in the BigQuery tables that have the daily partition data size doubled. 2. Schedule daily SQL jobs to deduplicate the affected tables. 3. Share the deduplication script with the other operational teams to reuse if this occurs to other tables.",
+    "1. Check for code errors in the deployed pipelines. 2. Check for multiple writing to pipeline BigQuery sink. 3. Check for errors in Cloud Logging during the day of the release of the new pipelines. 4. If no errors, restore the BigQuery tables to their content before the last release by using time travel.",
+    "1. Check for duplicate rows in the BigQuery tables that have the daily partition data size doubled. 2. Check the BigQuery Audit logs to find job IDs. 3. Use Cloud Monitoring to determine when the identified Dataflow jobs started and the pipeline code version. 4. When more than one pipeline ingests data into a table, stop all versions except the latest one.",
+    "1. Roll back the last deployment. 2. Restore the BigQuery tables to their content before the last release by using time travel. 3. Restart the Dataflow jobs and replay the messages by seeking the subscription to the timestamp of the release."
+  ],
+  "correct_answers": [
+    "1. Check for duplicate rows in the BigQuery tables that have the daily partition data size doubled. 2. Check the BigQuery Audit logs to find job IDs. 3. Use Cloud Monitoring to determine when the identified Dataflow jobs started and the pipeline code version. 4. When more than one pipeline ingests data into a table, stop all versions except the latest one."
+  ],
+  "categories": [
+    "BigQuery",
+    "Dataflow",
+    "Pub/Sub",
+    "Troubleshooting",
+    "Data Ingestion"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q6.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}
