@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question 27</title>
+    <link href="../style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6">
+    <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Explanation for Question 27</h2>
+        <p class="mb-4">
+            As a data engineer preparing for the Google Professional Data Engineer exam, I must apply my knowledge of machine learning fundamentals, particularly concerning model evaluation in contexts involving imbalanced data, to solve this classification problem effectively.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">Step-by-Step Analysis and Conclusion</h3>
+
+        <h4 class="text-lg font-medium mb-2">1. Deconstruct the Scenario and Identify Critical Constraints</h4>
+        <p class="mb-4">
+            The scenario presents a <strong>classification problem</strong> where the model predicts if a patient has a tumor.
+        </p>
+        <p class="mb-4">
+            The critical facts are:
+        </p>
+        <ol class="list-decimal pl-5 mb-4">
+            <li><strong>Imbalanced Data:</strong> Only <strong>1.4%</strong> of scanned patients are identified as positive for a tumor (the positive class is very rare). Datasets where one class appears very rarely are considered imbalanced.</li>
+            <li><strong>Objective:</strong> The primary goal is to <strong>correctly identify patients with tumor</strong>. In a medical diagnostic context like disease prediction, the consequence of a <strong>False Negative (FN)</strong>—failing to detect an actual tumor—is typically more severe than a False Positive (FP).</li>
+        </ol>
+        <p class="mb-4">
+            When faced with an imbalanced dataset, simple metrics like <strong>Accuracy</strong> can be misleading. For instance, a model that simply predicts "no tumor" 100% of the time would still achieve a 98.6% accuracy, despite being completely useless for identifying tumors.
+        </p>
+        <p class="mb-4">
+            Therefore, the technique required must be an evaluation metric that specifically measures the model's effectiveness in finding the rare <strong>positive cases</strong> while accounting for the high cost of missing them.
+        </p>
+
+        <h4 class="text-lg font-medium mb-2">2. Evaluate the Proposed Options</h4>
+        <p class="mb-4">
+            I will evaluate the four options based on their function in the machine learning workflow, classifying them as either Optimization, Regularization, or Evaluation metrics (Wijaya, 2024, p. 261):
+        </p>
+        <div class="overflow-x-auto mb-4">
+            <table class="min-w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b text-left">Option</th>
+                        <th class="py-2 px-4 border-b text-left">Function Category</th>
+                        <th class="py-2 px-4 border-b text-left">Description & Relevance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>A. Gradient Descent</strong></td>
+                        <td class="py-2 px-4 border-b">Optimization</td>
+                        <td class="py-2 px-4 border-b"><strong>Gradient Descent</strong> is an iterative algorithm used to minimize the loss or cost function during model training. The process involves taking repeated steps in the opposite direction of the gradient of the function. It is a method for training, not a metric for examining the model's final effectiveness.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>B. Recall</strong></td>
+                        <td class="py-2 px-4 border-b">Evaluation Metric</td>
+                        <td class="py-2 px-4 border-b"><strong>Recall</strong> is also known as the <strong>true positive rate (TPR)</strong>. It is defined as the proportion of all actual positives that were correctly classified as positives (TP / (TP + FN)). It measures the ability of the model to correctly identify all positive instances.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>C. Precision</strong></td>
+                        <td class="py-2 px-4 border-b">Evaluation Metric</td>
+                        <td class="py-2 px-4 border-b"><strong>Precision</strong> is the proportion of all the model's positive classifications that are actually positive (TP / (TP + FP)). It measures how important it is for positive predictions to be accurate, generally focusing on minimizing False Positives.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>D. Dropout</strong></td>
+                        <td class="py-2 px-4 border-b">Regularization</td>
+                        <td class="py-2 px-4 border-b"><strong>Dropout</strong> is a technique used in training, particularly in deep learning networks, where a percentage of neurons are randomly turned off. Its purpose is to prevent overfitting and help the network generalize better. It is a structural technique, not an evaluation metric.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4 class="text-lg font-medium mb-2">3. Determine the Most Appropriate Metric</h4>
+        <p class="mb-4">
+            The goal is to maximize the correct identification of patients with tumors, which means prioritizing the capture of the positive class and minimizing <strong>False Negatives (FN)</strong>.
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li><strong>Recall</strong> focuses on minimizing <strong>False Negatives (FN)</strong>. The question asks to ensure the model can <strong>correctly identify patients with tumor</strong>—this directly corresponds to maximizing the rate of True Positives out of all actual positives.</li>
+            <li>For applications like <strong>disease prediction</strong> where the number of actual positives is very low (1.4%) and a missed diagnosis (FN) has serious consequences, <strong>Recall</strong> is a more meaningful metric than accuracy or Precision. If you have a high Recall, you have a high probability of detecting the tumor if it exists.</li>
+        </ul>
+        <p class="mb-4">
+            While Precision (minimizing false alarms/False Positives) is also important in diagnostics, <strong>Recall</strong> is the metric that specifically addresses the core operational requirement of detecting the rare positive instances in this high-consequence scenario.
+        </p>
+
+        <h4 class="text-lg font-medium mb-2">4. Conclusion</h4>
+        <p class="mb-4">
+            Based on the highly imbalanced nature of the dataset and the critical need to identify the rare positive class (tumors), <strong>Recall</strong> is the most effective technique to examine the effectiveness of the model, as it measures the fraction of actual positive cases successfully identified.
+        </p>
+        <p class="text-lg font-bold mb-4">
+            The correct answer is B. Recall.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">Techniques for High Performance Question Solving</h3>
+        <p class="mb-4">
+            As a data engineer preparing for the exam, I used the following techniques:
+        </p>
+        <ol class="list-decimal pl-5 mb-4">
+            <li><strong>Deconstruction and Keyword Identification:</strong> I immediately identified the context as "classification" and the critical constraint as the "imbalanced dataset" (1.4% positive). This realization immediately discounts common metrics like Accuracy. The instructional objective is to identify techniques that maximize performance significantly, which involves matching the right metric to the business goal.</li>
+            <li><strong>Elimination of Non-Metrics:</strong> I quickly eliminated options A (Gradient Descent) and D (Dropout) because they are optimization or regularization techniques used <em>during training</em>, not evaluation metrics used to measure final model quality. This reduces the options to the fundamental evaluation metrics: Recall and Precision.</li>
+            <li><strong>Contextual Optimization (High-Stakes, Imbalanced Data):</strong> I leveraged domain knowledge derived from the sources regarding metric trade-offs in imbalanced datasets and high-stakes scenarios (like disease prediction). The sources explicitly state that for imbalanced datasets and critical applications like disease prediction, maximizing <strong>Recall</strong> is preferred because minimizing False Negatives (missed tumors) is crucial.</li>
+        </ol>
+        <p class="mb-4">
+            This structured approach, focusing on domain-specific constraints (imbalanced data, high FN cost) and leveraging category knowledge (metric vs. optimization), ensures the correct choice is made efficiently.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">APA Citations</h3>
+        <p class="mb-4">
+            (Classification: Accuracy, recall, precision, and related metrics, n.d.):
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li>A classification problem can have two classes, referred to as binary classification.</li>
+            <li>When the dataset is imbalanced, where one class appears very rarely (e.g., 1% of the time), a model that predicts the negative class 100% of the time can still score high on accuracy, despite being useless.</li>
+            <li>Accuracy is the proportion of all correct classifications, but it is advised to avoid it for imbalanced datasets.</li>
+            <li><strong>Recall</strong>, or the true positive rate (TPR), is the proportion of all actual positives that were classified correctly as positives.</li>
+            <li>Recall is mathematically defined as TP / (TP + FN), where FN (False Negatives) are actual positives that were misclassified.</li>
+            <li>In an imbalanced dataset where the number of actual positives is very low, <strong>Recall</strong> is a more meaningful metric than accuracy because it measures the model's ability to correctly identify all positive instances.</li>
+            <li>For applications like <strong>disease prediction</strong>, correctly identifying the positive cases is crucial because a <strong>false negative</strong> typically has more serious consequences than a false positive.</li>
+            <li><strong>Precision</strong> is the proportion of all the model's positive classifications that are actually positive (TP / (TP + FP)).</li>
+            <li>Precision should be used when it is very important for positive predictions to be accurate.</li>
+            <li>The choice of metric depends on the costs, benefits, and risks of the specific problem.</li>
+        </ul>
+        <p class="mb-4">
+            (Lanham, 2021):
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li>Classification is the process of classifying data into discrete classes.</li>
+            <li>The classification process often needs to tackle complex data, looking at numerous independent variables referred to as features.</li>
+            <li>The technique of <strong>Dropout</strong> involves randomly turning off a percentage of neurons in a layer to prevent overfitting and better generalize the model.</li>
+            <li>Dropout layers drop out neurons between activations, which allows for better generalization across data.</li>
+            <li><strong>Gradient descent</strong> is a process that finds the gradient describing the impact of an individual weight and reverses its direction to find the global minimum of the solution, often referred to as optimization.</li>
+            <li>A classification problem, such as predicting whether a show sells out, results in a probability that the row belongs to a label value.</li>
+        </ul>
+        <p class="mb-4">
+            (Lakshmanan, n.d.):
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li>The <strong>logistic function</strong> is used to transform a linear combination into a probability, required for anything to be a probability (P(Y) will lie between 0 and 1).</li>
+            <li>The problem of finding a set of weights that optimizes model predictions based on known outcomes is an instance of a <strong>supervised learning problem</strong>, where the actual answers are called labels.</li>
+        </ul>
+        <p class="mb-4">
+            (Wijaya, 2024):
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li>Metrics or measurements that are used to calculate how good an ML model is are referred to as <strong>Accuracy/model performance</strong>.</li>
+            <li>In training a model, hyperparameters, such as the number of trees in the Random Forest model, are defined.</li>
+        </ul>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q27.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>

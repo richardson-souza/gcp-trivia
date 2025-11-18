@@ -1,0 +1,22 @@
+{
+  "id": "q28",
+  "question": "At ZenithMart Corp, both the customer and order databases are frequently under heavy usage, making it challenging to run analytical workloads without affecting operational performance. These databases run in a MySQL cluster, and nightly backups are created using mysqldump.\nYou need to perform analytics with minimal disruption to your production systems. What approach should you take?",
+  "options": [
+    "Add another node to the existing MySQL cluster and build an OLAP cube there.",
+    "Use an ETL tool to extract data from MySQL and load it into BigQuery.",
+    "Connect your on-premises Apache Hadoop cluster to MySQL and carry out the ETL process.",
+    "Mount the MySQL backups to Cloud SQL, and then process the data using Cloud Dataproc."
+  ],
+  "correct_answers": [
+    "Use an ETL tool to extract data from MySQL and load it into BigQuery."
+  ],
+  "categories": [
+    "Data Warehousing",
+    "ETL",
+    "BigQuery",
+    "MySQL"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q28.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "q27",
+  "question": "Let’s say you are building a machine learning model to solve a classification problem. The model should identify if a patient has a tumor. Based on statistics, only 1.4% of scanned patients are identified positive for tumor. You want to make sure the machine learning model is able to correctly identify patients with tumor. What is the technique to examine the effectiveness of the model?",
+  "options": [
+    "Gradient Descent.",
+    "Recall.",
+    "Precision.",
+    "Dropout."
+  ],
+  "correct_answers": [
+    "Recall."
+  ],
+  "categories": [
+    "Machine Learning",
+    "Model Evaluation",
+    "Classification"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q27.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

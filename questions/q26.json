@@ -1,0 +1,21 @@
+{
+  "id": "q26",
+  "question": "NovaTech Manufacturing is streaming real-time sensor data from its production floor into Cloud Bigtable. However, the team has observed severe performance issues, particularly with queries used to power real-time dashboards.\nTo improve query performance, how should the row key design be modified?",
+  "options": [
+    "Use a row key structured as <timestamp>.",
+    "Use a row key structured as <sensor_id>.",
+    "Use a row key structured as <timestamp>#<sensor_id>.",
+    "Use a row key structured as <sensor_id>#<timestamp>."
+  ],
+  "correct_answers": [
+    "Use a row key structured as <sensor_id>#<timestamp>."
+  ],
+  "categories": [
+    "Bigtable",
+    "Performance Tuning",
+    "Data Modeling"
+  ],
+  "is_verified": true,
+  "is_ai_generated": false,
+  "explanation": "<a href=\"explanations/q26.html\" target=\"_blank\" class=\"text-blue-500 hover:underline\">View Detailed Explanation</a>"
+}

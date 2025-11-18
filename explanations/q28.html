@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explanation for Question 28</title>
+    <link href="../style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6">
+    <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Explanation for Question 28</h2>
+        <p class="mb-4">
+            This scenario presents a classic data engineering challenge: separating <strong>Online Transaction Processing (OLTP)</strong> workloads (the heavy usage MySQL cluster) from <strong>Online Analytical Processing (OLAP)</strong> workloads (the required analytics and dashboards) to ensure minimal disruption to the critical production system.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">Step-by-Step Analysis and Conclusion</h3>
+
+        <h4 class="text-lg font-medium mb-2">1. Deconstruct the Scenario and Identify Key Requirements</h4>
+        <div class="overflow-x-auto mb-4">
+            <table class="min-w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b text-left">Element</th>
+                        <th class="py-2 px-4 border-b text-left">Description</th>
+                        <th class="py-2 px-4 border-b text-left">Architectural Implication</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>Source System</strong></td>
+                        <td class="py-2 px-4 border-b">MySQL Cluster, heavy usage</td>
+                        <td class="py-2 px-4 border-b">This is an OLTP system, optimized for high-throughput transactional writes and reads.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>Problem</strong></td>
+                        <td class="py-2 px-4 border-b">Analytical workloads cause severe performance issues</td>
+                        <td class="py-2 px-4 border-b">Heavy analytical queries (full table scans, aggregations) should <em>not</em> be run directly on the OLTP database.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>Goal</strong></td>
+                        <td class="py-2 px-4 border-b">Perform analytics with <strong>minimal disruption</strong></td>
+                        <td class="py-2 px-4 border-b">Requires moving the analytical workload to a separate, highly scalable, non-transactional system (a Data Warehouse).</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>Data Flow</strong></td>
+                        <td class="py-2 px-4 border-b">Nightly backups via <code>mysqldump</code></td>
+                        <td class="py-2 px-4 border-b">Indicates that batch extraction is currently used or feasible.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="mb-4">
+            The core requirement is establishing an efficient pipeline that moves data from MySQL to a scalable platform optimized for analytics on Google Cloud Platform (GCP). <strong>BigQuery</strong> is the recommended serverless, petabyte-scale data warehouse for OLAP workloads on GCP.
+        </p>
+
+        <h4 class="text-lg font-medium mb-2">2. Analyze Architectural Principles</h4>
+        <p class="mb-4">
+            The critical difference between relational databases (like MySQL) and analytical warehouses (like BigQuery) drives the solution:
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li><strong>MySQL (Cloud SQL/RDBMS):</strong> Uses record-based storage, optimized for transactional consistency and high write throughput. Queries requiring full table scans (typical analytics) are expensive.</li>
+            <li><strong>BigQuery:</strong> Uses columnar storage, is serverless, and separates compute and storage (Dremel and Colossus architecture). It is built for processing petabytes of data quickly, making it ideal for non-disruptive analytical workloads.</li>
+        </ul>
+        <p class="mb-4">
+            The standard methodology for moving data from an OLTP source (MySQL) to an OLAP target (BigQuery) is either Extract, Transform, Load (ETL) or Extract, Load, Transform (ELT).
+        </p>
+
+        <h4 class="text-lg font-medium mb-2">3. Evaluate the Proposed Options</h4>
+        <p class="mb-4">
+            We evaluate how each option addresses the need for non-disruptive, scalable analytics:
+        </p>
+        <div class="overflow-x-auto mb-4">
+            <table class="min-w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b text-left">Option</th>
+                        <th class="py-2 px-4 border-b text-left">Approach</th>
+                        <th class="py-2 px-4 border-b text-left">Alignment with Best Practices & Constraints</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>A</strong></td>
+                        <td class="py-2 px-4 border-b">Add another node to the existing MySQL cluster and build an OLAP cube there.</td>
+                        <td class="py-2 px-4 border-b"><strong>Poor Fit.</strong> While a read replica helps, MySQL is fundamentally ill-suited for heavy analytical workloads involving full table scans, regardless of clustering. This approach fails to leverage modern columnar architecture necessary for scalable, cost-effective OLAP.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>B</strong></td>
+                        <td class="py-2 px-4 border-b">Use an ETL tool to extract data from MySQL and load it into BigQuery.</td>
+                        <td class="py-2 px-4 border-b"><strong>Optimal.</strong> This approach mandates decoupling the OLTP source (MySQL) from the OLAP destination (BigQuery). Using an ETL tool (like Dataflow, Data Transfer Service, or Cloud Composer workflows running BigQuery operators) is the recommended way to move and possibly transform data from transactional databases like MySQL/Cloud SQL into BigQuery. BigQuery's serverless nature ensures that analytical work runs on separate infrastructure, achieving minimal disruption.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>C</strong></td>
+                        <td class="py-2 px-4 border-b">Connect your on-premises Apache Hadoop cluster to MySQL and carry out the ETL process.</td>
+                        <td class="py-2 px-4 border-b"><strong>Suboptimal.</strong> This introduces dependency on managing an on-premises Hadoop cluster, which leads to operational overhead, complexity, and expense—issues that GCP's serverless tools are designed to eliminate. Modern GCP best practices favor serverless services (BigQuery, Dataflow) or ephemeral Dataproc clusters that use Cloud Storage, not persistent on-premises Hadoop.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b"><strong>D</strong></td>
+                        <td class="py-2 px-4 border-b">Mount the MySQL backups to Cloud SQL, and then process the data using Cloud Dataproc.</td>
+                        <td class="py-2 px-4 border-b"><strong>Inefficient Architecture.</strong> Cloud SQL is also an OLTP-optimized relational database. Moving the data into a new Cloud SQL instance is an unnecessary intermediate step for a high-volume analytical job. While Dataproc can process data, the final data should reside in BigQuery for scalable analytics. This structure adds complexity and inefficiency compared to a direct ETL/ELT flow into BigQuery.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4 class="text-lg font-medium mb-2">4. Conclusion</h4>
+        <p class="mb-4">
+            The most effective approach that adheres to GCP best practices for non-disruptive, scalable analytics is moving the data into a dedicated cloud data warehouse environment. Option B accomplishes this using the standard cloud pattern: utilizing an ETL mechanism to stage the data from MySQL and load it into <strong>BigQuery</strong>, the managed analytical platform.
+        </p>
+        <p class="text-lg font-bold mb-4">
+            The correct answer is B. Use an ETL tool to extract data from MySQL and load it into BigQuery.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3">APA Citations</h3>
+        <p class="mb-4">
+            The analysis relies on the following concepts supported by the sources:
+        </p>
+        <ul class="list-disc pl-5 mb-4">
+            <li><strong>BigQuery as the Analytical Solution:</strong> BigQuery is Google Cloud’s serverless, petabyte-scale data warehouse, highly suitable for OLAP workloads, reporting, and big data exploration.</li>
+            <li><strong>Separation of Workloads:</strong> Relational databases (RDBMS) are optimized for transactional workloads, while BigQuery is optimized for analytical workloads, requiring their separation in the final architecture. Running full table scans or complex analysis on an RDBMS intended for application use causes performance issues.</li>
+            <li><strong>ETL/ELT Necessity:</strong> Extract, Transform, and Load (ETL) or Extract, Load, and Transform (ELT) pipelines are necessary to ensure data quality and move usable data from source systems (like MySQL) into the data warehouse (BigQuery).</li>
+            <li><strong>Methods of Transferring from MySQL:</strong> Data can be extracted from source systems, such as Cloud SQL for MySQL, and loaded into BigQuery using various mechanisms including ETL tools like Dataflow or dedicated services like the BigQuery Data Transfer Service. The use of an ETL tool allows for continuous loading, or batch/scheduled transfers, into BigQuery.</li>
+            <li><strong>Serverless Advantage:</strong> BigQuery's serverless nature means users don't need to manage clusters or infrastructure, allowing them to focus on insights and providing automatic handling of scalability and performance for analytical queries, which minimizes the operational overhead that would be present in options A, C, and D.</li>
+        </ul>
+        <p class="mb-4">
+            This approach is analogous to separating your retail store's cash register data (the real-time, transactional OLTP system) from your financial planning department's spreadsheet (the analytical OLAP system). You wouldn't run massive sales reports directly on the cash register because it would freeze the line; instead, you periodically extract the data and load it into a powerful, dedicated system (BigQuery) for complex analysis, ensuring continuous, high-speed transaction processing at the source.
+        </p>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-center">
+            <audio controls class="w-full max-w-md">
+                <source src="q28.m4a" type="audio/mp4">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </footer>
+</body>
+</html>
